@@ -1,1 +1,2 @@
 Assets/** filter=lfs diff=lfs merge=lfs -text
+addons/midi/icon.png filter=lfs diff=lfs merge=lfs -text
