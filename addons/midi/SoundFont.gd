@@ -1,7 +1,7 @@
 """
-	SoundFont reader by あるる（きのもと 結衣） @arlez80
+    SoundFont reader by あるる（きのもと 結衣） @arlez80
 
-	MIT License
+    MIT License
 """
 
 class_name SoundFont
@@ -91,469 +91,469 @@ const sample_mode_loop_ends_by_key_depression:int = 3
 # ------------------------------------------------------------------------------
 # Classes
 class SoundFontData:
-	var info:SoundFontInfo
-	var sdta:SoundFontSampleData
-	var pdta:SoundFontPresetData
+    var info:SoundFontInfo
+    var sdta:SoundFontSampleData
+    var pdta:SoundFontPresetData
 
 class SoundFontChunk:
-	var header:String = ""
-	var size:int = 0
-	var stream:StreamPeerBuffer
+    var header:String = ""
+    var size:int = 0
+    var stream:StreamPeerBuffer
 
 class SoundFontVersionTag:
-	var major:int = 0
-	var minor:int = 0
+    var major:int = 0
+    var minor:int = 0
 
 class SoundFontInfo:
-	var ifil:SoundFontVersionTag = SoundFontVersionTag.new( )
-	var isng:String = ""
-	var inam:String = ""
+    var ifil:SoundFontVersionTag = SoundFontVersionTag.new( )
+    var isng:String = ""
+    var inam:String = ""
 
-	var irom:String = ""
-	var iver:SoundFontVersionTag = SoundFontVersionTag.new( )
-	var icrd:String = ""
-	var ieng:String = ""
-	var iprd:String = ""
-	var icop:String = ""
-	var icmt:String = ""
-	var isft:String = ""
+    var irom:String = ""
+    var iver:SoundFontVersionTag = SoundFontVersionTag.new( )
+    var icrd:String = ""
+    var ieng:String = ""
+    var iprd:String = ""
+    var icop:String = ""
+    var icmt:String = ""
+    var isft:String = ""
 
 class SoundFontSampleData:
-	var smpl:PoolByteArray
-	var sm24:PoolByteArray
+    var smpl:PoolByteArray
+    var sm24:PoolByteArray
 
 class SoundFontPresetData:
-	var phdr:Array
-	var pbag:Array
-	var pmod:Array
-	var pgen:Array
-	var inst:Array
-	var ibag:Array
-	var imod:Array
-	var igen:Array
-	var shdr:Array
+    var phdr:Array
+    var pbag:Array
+    var pmod:Array
+    var pgen:Array
+    var inst:Array
+    var ibag:Array
+    var imod:Array
+    var igen:Array
+    var shdr:Array
 
 class SoundFontPresetHeader:
-	var name:String = ""
-	var preset:int = 0
-	var bank:int = 0
-	var preset_bag_index:int = 0
-	var library:int = 0
-	var genre:int = 0
-	var morphology:int = 0
+    var name:String = ""
+    var preset:int = 0
+    var bank:int = 0
+    var preset_bag_index:int = 0
+    var library:int = 0
+    var genre:int = 0
+    var morphology:int = 0
 
 class SoundFontBag:
-	var gen_ndx:int = 0
-	var mod_ndx:int = 0
+    var gen_ndx:int = 0
+    var mod_ndx:int = 0
 
 class SoundFontModule:
-	var src_oper:SoundFontPresetDataModulator = null
-	var dest_oper:int = 0
-	var amount:int = 0
-	var amt_src_oper:SoundFontPresetDataModulator = null
-	var trans_oper:int = 0
+    var src_oper:SoundFontPresetDataModulator = null
+    var dest_oper:int = 0
+    var amount:int = 0
+    var amt_src_oper:SoundFontPresetDataModulator = null
+    var trans_oper:int = 0
 
 class SoundFontGenerator:
-	var gen_oper:int = 0
-	var uamount:int = 0
-	var amount:int = 0
+    var gen_oper:int = 0
+    var uamount:int = 0
+    var amount:int = 0
 
 class SoundFontPresetDataModulator:
-	var type:int
-	var direction:int
-	var polarity:int
-	var controller:int
-	var controllerPallete:int
+    var type:int
+    var direction:int
+    var polarity:int
+    var controller:int
+    var controllerPallete:int
 
-	func _init( u:int ):
-		self.type = ( u >> 10 ) & 0x3f
-		self.direction = ( u >> 8 ) & 0x01
-		self.polarity = ( u >> 9 ) & 0x01
-		self.controller = u & 0x7f
-		self.controllerPallete = ( u >> 7 ) & 0x01
+    func _init( u:int ):
+        self.type = ( u >> 10 ) & 0x3f
+        self.direction = ( u >> 8 ) & 0x01
+        self.polarity = ( u >> 9 ) & 0x01
+        self.controller = u & 0x7f
+        self.controllerPallete = ( u >> 7 ) & 0x01
 
 class SoundFontInstrument:
-	var name:String = ""
-	var inst_bag_ndx:int = 0
+    var name:String = ""
+    var inst_bag_ndx:int = 0
 
 class SoundFontSampleHeader:
-	var name:String = ""
-	var start:int = 0
-	var end:int = 0
-	var start_loop:int = 0
-	var end_loop:int = 0
-	var sample_rate:int = 0
-	var original_key:int = 0
-	var pitch_correction:int = 0
-	var sample_link:int = 0
-	var sample_type:int = 0
+    var name:String = ""
+    var start:int = 0
+    var end:int = 0
+    var start_loop:int = 0
+    var end_loop:int = 0
+    var sample_rate:int = 0
+    var original_key:int = 0
+    var pitch_correction:int = 0
+    var sample_link:int = 0
+    var sample_type:int = 0
 
 # 読み込んだ
 class SoundFontParseResult:
-	var error:int = OK
-	var data:SoundFontData = null
+    var error:int = OK
+    var data:SoundFontData = null
 
-	func _init( ):
-		pass
+    func _init( ):
+        pass
 
 func read_file( path:String ) -> SoundFontParseResult:
-	#
-	# ファイルから読み込み
-	# @param	path	ファイルパス
-	# @return	サウンドフォント
-	#
+    #
+    # ファイルから読み込み
+    # @param	path	ファイルパス
+    # @return	サウンドフォント
+    #
 
-	var result: = SoundFontParseResult.new( )
-	var f:File = File.new( )
+    var result: = SoundFontParseResult.new( )
+    var f:File = File.new( )
 
-	var err:int = f.open( path, f.READ )
-	if err != OK:
-		result.error = err
-		return result
-	var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
-	stream.set_data_array( f.get_buffer( f.get_len( ) ) )
-	stream.big_endian = false
-	f.close( )
+    var err:int = f.open( path, f.READ )
+    if err != OK:
+        result.error = err
+        return result
+    var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
+    stream.set_data_array( f.get_buffer( f.get_len( ) ) )
+    stream.big_endian = false
+    f.close( )
 
-	result.data = self._read( stream )
-	return result
+    result.data = self._read( stream )
+    return result
 
 func read_data( data:PoolByteArray ) -> SoundFontParseResult:
-	#
-	# 配列から読み込み
-	# @param	data	データ
-	# @return	サウンドフォント
-	#
+    #
+    # 配列から読み込み
+    # @param	data	データ
+    # @return	サウンドフォント
+    #
 
-	var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
-	stream.set_data_array( data )
-	stream.big_endian = false
+    var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
+    stream.set_data_array( data )
+    stream.big_endian = false
 
-	var result: = SoundFontParseResult.new( )
-	result.data = self._read( stream )
-	return result
+    var result: = SoundFontParseResult.new( )
+    result.data = self._read( stream )
+    return result
 
 func _read( input:StreamPeerBuffer ) -> SoundFontData:
-	#
-	# 読み込み
-	# @param	input	ストリーム
-	# @return	サウンドフォント
-	#
+    #
+    # 読み込み
+    # @param	input	ストリーム
+    # @return	サウンドフォント
+    #
 
-	self._check_chunk( input, "RIFF" )
-	self._check_header( input, "sfbk" )
+    self._check_chunk( input, "RIFF" )
+    self._check_header( input, "sfbk" )
 
-	var sf = SoundFontData.new( )
+    var sf = SoundFontData.new( )
 
-	sf.info = self._read_info( input )
-	sf.sdta = self._read_sdta( input )
-	sf.pdta = self._read_pdta( input )
+    sf.info = self._read_info( input )
+    sf.sdta = self._read_sdta( input )
+    sf.pdta = self._read_pdta( input )
 
-	return sf
+    return sf
 
 func _check_chunk( input:StreamPeerBuffer, hdr:String ) -> void:
-	#
-	# チャンクチェック
-	# @param	input	ストリーム
-	# @param	hdr		ヘッダ文字列
-	#
+    #
+    # チャンクチェック
+    # @param	input	ストリーム
+    # @param	hdr		ヘッダ文字列
+    #
 
-	self._check_header( input, hdr )
-	if input.get_32( ) != 0:
-		pass
+    self._check_header( input, hdr )
+    if input.get_32( ) != 0:
+        pass
 
 func _check_header( input:StreamPeerBuffer, hdr:String ) -> void:
-	#
-	# ヘッダーチェック
-	# @param	input	ストリーム
-	# @param	hdr		ヘッダ文字列
-	#
+    #
+    # ヘッダーチェック
+    # @param	input	ストリーム
+    # @param	hdr		ヘッダ文字列
+    #
 
-	var chk = input.get_string( 4 )
-	if hdr != chk:
-		print( "Doesn't exist " + hdr + " header" )
-		breakpoint
+    var chk = input.get_string( 4 )
+    if hdr != chk:
+        print( "Doesn't exist " + hdr + " header" )
+        breakpoint
 
 func _read_chunk( stream:StreamPeerBuffer, required_header = null ) -> SoundFontChunk:
-	#
-	# チャンク読み込み
-	# @param	input			ストリーム
-	# @param	required_header	ヘッダ確認
-	# @return	チャンク
-	#
+    #
+    # チャンク読み込み
+    # @param	input			ストリーム
+    # @param	required_header	ヘッダ確認
+    # @return	チャンク
+    #
 
-	var chunk:SoundFontChunk = SoundFontChunk.new( )
+    var chunk:SoundFontChunk = SoundFontChunk.new( )
 
-	chunk.header = stream.get_string( 4 )
-	if required_header != null:
-		if required_header != chunk.header:
-			print( "Doesn't exist " + required_header + " header" )
-			breakpoint
-	chunk.size =  stream.get_u32( )
-	var new_stream:StreamPeerBuffer = StreamPeerBuffer.new( )
-	new_stream.set_data_array( stream.get_partial_data( chunk.size )[1] )
-	new_stream.big_endian = false
-	chunk.stream = new_stream
+    chunk.header = stream.get_string( 4 )
+    if required_header != null:
+        if required_header != chunk.header:
+            print( "Doesn't exist " + required_header + " header" )
+            breakpoint
+    chunk.size =  stream.get_u32( )
+    var new_stream:StreamPeerBuffer = StreamPeerBuffer.new( )
+    new_stream.set_data_array( stream.get_partial_data( chunk.size )[1] )
+    new_stream.big_endian = false
+    chunk.stream = new_stream
 
-	return chunk
+    return chunk
 
 func _read_info( stream:StreamPeerBuffer ) -> SoundFontInfo:
-	#
-	# INFOチャンクを読み込む
-	# @param	stream	ストリーム
-	# @return	サウンドフォントのINFO
-	#
+    #
+    # INFOチャンクを読み込む
+    # @param	stream	ストリーム
+    # @return	サウンドフォントのINFO
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
-	self._check_header( chunk.stream, "INFO" )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
+    self._check_header( chunk.stream, "INFO" )
 
-	var info:SoundFontInfo = SoundFontInfo.new( )
+    var info:SoundFontInfo = SoundFontInfo.new( )
 
-	while 0 < chunk.stream.get_available_bytes( ):
-		var sub_chunk:SoundFontChunk = self._read_chunk( chunk.stream )
-		match sub_chunk.header.to_lower( ):
-			"ifil":
-				info.ifil = self._read_version_tag( sub_chunk.stream )
-			"isng":
-				info.isng = sub_chunk.stream.get_string( sub_chunk.size )
-			"inam":
-				info.inam = sub_chunk.stream.get_string( sub_chunk.size )
-			"irom":
-				info.irom = sub_chunk.stream.get_string( sub_chunk.size )
-			"iver":
-				info.iver = self._read_version_tag( sub_chunk.stream )
-			"icrd":
-				info.icrd = sub_chunk.stream.get_string( sub_chunk.size )
-			"ieng":
-				info.ieng = sub_chunk.stream.get_string( sub_chunk.size )
-			"iprd":
-				info.iprd = sub_chunk.stream.get_string( sub_chunk.size )
-			"icop":
-				info.icop = sub_chunk.stream.get_string( sub_chunk.size )
-			"icmt":
-				info.icmt = sub_chunk.stream.get_string( sub_chunk.size )
-			"isft":
-				info.isft = sub_chunk.stream.get_string( sub_chunk.size )
-			_:
-				print( "unknown header" )
-				breakpoint
+    while 0 < chunk.stream.get_available_bytes( ):
+        var sub_chunk:SoundFontChunk = self._read_chunk( chunk.stream )
+        match sub_chunk.header.to_lower( ):
+            "ifil":
+                info.ifil = self._read_version_tag( sub_chunk.stream )
+            "isng":
+                info.isng = sub_chunk.stream.get_string( sub_chunk.size )
+            "inam":
+                info.inam = sub_chunk.stream.get_string( sub_chunk.size )
+            "irom":
+                info.irom = sub_chunk.stream.get_string( sub_chunk.size )
+            "iver":
+                info.iver = self._read_version_tag( sub_chunk.stream )
+            "icrd":
+                info.icrd = sub_chunk.stream.get_string( sub_chunk.size )
+            "ieng":
+                info.ieng = sub_chunk.stream.get_string( sub_chunk.size )
+            "iprd":
+                info.iprd = sub_chunk.stream.get_string( sub_chunk.size )
+            "icop":
+                info.icop = sub_chunk.stream.get_string( sub_chunk.size )
+            "icmt":
+                info.icmt = sub_chunk.stream.get_string( sub_chunk.size )
+            "isft":
+                info.isft = sub_chunk.stream.get_string( sub_chunk.size )
+            _:
+                print( "unknown header" )
+                breakpoint
 
-	return info
+    return info
 
 func _read_version_tag( stream:StreamPeerBuffer ) -> SoundFontVersionTag:
-	#
-	# バージョンタグを読み込む
-	# @param	ストリーム
-	# @return	バージョンタグ
-	#
+    #
+    # バージョンタグを読み込む
+    # @param	ストリーム
+    # @return	バージョンタグ
+    #
 
-	var vtag:SoundFontVersionTag = SoundFontVersionTag.new( )
-	vtag.major = stream.get_u16( )
-	vtag.minor = stream.get_u16( )
+    var vtag:SoundFontVersionTag = SoundFontVersionTag.new( )
+    vtag.major = stream.get_u16( )
+    vtag.minor = stream.get_u16( )
 
-	return vtag
+    return vtag
 
 func _read_sdta( stream:StreamPeerBuffer ) -> SoundFontSampleData:
-	#
-	# SDTAを読み込む
-	# @param	stream	ストリーム
-	# @return	サンプルデータ
-	#
+    #
+    # SDTAを読み込む
+    # @param	stream	ストリーム
+    # @return	サンプルデータ
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
-	self._check_header( chunk.stream, "sdta" )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
+    self._check_header( chunk.stream, "sdta" )
 
-	var sdta:SoundFontSampleData = SoundFontSampleData.new( )
+    var sdta:SoundFontSampleData = SoundFontSampleData.new( )
 
-	var smpl:SoundFontChunk = self._read_chunk( chunk.stream, "smpl" )
-	sdta.smpl = smpl.stream.get_partial_data( smpl.size )[1]
+    var smpl:SoundFontChunk = self._read_chunk( chunk.stream, "smpl" )
+    sdta.smpl = smpl.stream.get_partial_data( smpl.size )[1]
 
-	if 0 < chunk.stream.get_available_bytes( ):
-		var sm24_chunk:SoundFontChunk = self._read_chunk( chunk.stream, "sm24" )
-		sdta.sm24 = sm24_chunk.stream.get_partial_data( sm24_chunk.size )[1]
+    if 0 < chunk.stream.get_available_bytes( ):
+        var sm24_chunk:SoundFontChunk = self._read_chunk( chunk.stream, "sm24" )
+        sdta.sm24 = sm24_chunk.stream.get_partial_data( sm24_chunk.size )[1]
 
-	return sdta
+    return sdta
 
 func _read_pdta( stream:StreamPeerBuffer ) -> SoundFontPresetData:
-	#
-	# PDTAを読み込む
-	# @param	stream	ストリーム
-	# @return	プリセットデータ
-	#
+    #
+    # PDTAを読み込む
+    # @param	stream	ストリーム
+    # @return	プリセットデータ
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
-	self._check_header( chunk.stream, "pdta" )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "LIST" )
+    self._check_header( chunk.stream, "pdta" )
 
-	var pdta:SoundFontPresetData = SoundFontPresetData.new( )
+    var pdta:SoundFontPresetData = SoundFontPresetData.new( )
 
-	pdta.phdr = self._read_pdta_phdr( chunk.stream )
-	pdta.pbag = self._read_pdta_bag( chunk.stream )
-	pdta.pmod = self._read_pdta_mod( chunk.stream )
-	pdta.pgen = self._read_pdta_gen( chunk.stream )
-	pdta.inst = self._read_pdta_inst( chunk.stream )
-	pdta.ibag = self._read_pdta_bag( chunk.stream )
-	pdta.imod = self._read_pdta_mod( chunk.stream )
-	pdta.igen = self._read_pdta_gen( chunk.stream )
-	pdta.shdr = self._read_pdta_shdr( chunk.stream )
+    pdta.phdr = self._read_pdta_phdr( chunk.stream )
+    pdta.pbag = self._read_pdta_bag( chunk.stream )
+    pdta.pmod = self._read_pdta_mod( chunk.stream )
+    pdta.pgen = self._read_pdta_gen( chunk.stream )
+    pdta.inst = self._read_pdta_inst( chunk.stream )
+    pdta.ibag = self._read_pdta_bag( chunk.stream )
+    pdta.imod = self._read_pdta_mod( chunk.stream )
+    pdta.igen = self._read_pdta_gen( chunk.stream )
+    pdta.shdr = self._read_pdta_shdr( chunk.stream )
 
-	return pdta
+    return pdta
 
 func _read_pdta_phdr( stream:StreamPeerBuffer ) -> Array:
-	#
-	# phdr 読み込み
-	# @param	stream	ストリーム
-	# @return	プリセットヘッダーのリスト
-	#
+    #
+    # phdr 読み込み
+    # @param	stream	ストリーム
+    # @return	プリセットヘッダーのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "phdr" )
-	var phdrs:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "phdr" )
+    var phdrs:Array = Array( )
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	while 0 < chunk_stream.get_available_bytes( ):
-		var phdr:SoundFontPresetHeader = SoundFontPresetHeader.new( )
+    while 0 < chunk_stream.get_available_bytes( ):
+        var phdr:SoundFontPresetHeader = SoundFontPresetHeader.new( )
 
-		phdr.name = chunk_stream.get_string( 20 )
-		phdr.preset = chunk_stream.get_u16( )
-		phdr.bank = chunk_stream.get_u16( )
-		phdr.preset_bag_index = chunk_stream.get_u16( )
-		phdr.library = chunk_stream.get_32( )
-		phdr.genre = chunk_stream.get_32( )
-		phdr.morphology = chunk_stream.get_32( )
+        phdr.name = chunk_stream.get_string( 20 )
+        phdr.preset = chunk_stream.get_u16( )
+        phdr.bank = chunk_stream.get_u16( )
+        phdr.preset_bag_index = chunk_stream.get_u16( )
+        phdr.library = chunk_stream.get_32( )
+        phdr.genre = chunk_stream.get_32( )
+        phdr.morphology = chunk_stream.get_32( )
 
-		phdrs.append( phdr )
+        phdrs.append( phdr )
 
-	return phdrs
+    return phdrs
 
 func _read_pdta_bag( stream:StreamPeerBuffer ) -> Array:
-	#
-	# *bag読み込み
-	# @param	stream	ストリーム
-	# @return	bagデータのリスト
-	#
+    #
+    # *bag読み込み
+    # @param	stream	ストリーム
+    # @return	bagデータのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream )
-	var bags:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream )
+    var bags:Array = Array( )
 
-	if chunk.header.substr( 1, 3 ) != "bag":
-		print( "Doesn't exist *bag header." )
-		breakpoint
+    if chunk.header.substr( 1, 3 ) != "bag":
+        print( "Doesn't exist *bag header." )
+        breakpoint
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	while 0 < chunk_stream.get_available_bytes( ):
-		var bag:SoundFontBag = SoundFontBag.new( )
-	
-		bag.gen_ndx = chunk_stream.get_u16( )
-		bag.mod_ndx = chunk_stream.get_u16( )
-		bags.append( bag )
+    while 0 < chunk_stream.get_available_bytes( ):
+        var bag:SoundFontBag = SoundFontBag.new( )
+    
+        bag.gen_ndx = chunk_stream.get_u16( )
+        bag.mod_ndx = chunk_stream.get_u16( )
+        bags.append( bag )
 
-	return bags
+    return bags
 
 func _read_pdta_mod( stream:StreamPeerBuffer ) -> Array:
-	#
-	# *mod読み込み
-	# @param	stream	ストリーム
-	# @return	modulationデータのリスト
-	#
+    #
+    # *mod読み込み
+    # @param	stream	ストリーム
+    # @return	modulationデータのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream )
-	var mods:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream )
+    var mods:Array = Array( )
 
-	if chunk.header.substr( 1, 3 ) != "mod":
-		print( "Doesn't exist *mod header." )
-		breakpoint
+    if chunk.header.substr( 1, 3 ) != "mod":
+        print( "Doesn't exist *mod header." )
+        breakpoint
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	while 0 < chunk_stream.get_available_bytes( ):
-		var mod:SoundFontModule = SoundFontModule.new( )
-	
-		mod.src_oper = SoundFontPresetDataModulator.new( chunk_stream.get_u16( ) )
-		mod.dest_oper = chunk_stream.get_u16( )
-		mod.amount = chunk_stream.get_u16( )
-		mod.amt_src_oper = SoundFontPresetDataModulator.new( chunk_stream.get_u16( ) )
-		mod.trans_oper = chunk_stream.get_u16( )
-		mods.append( mod )
+    while 0 < chunk_stream.get_available_bytes( ):
+        var mod:SoundFontModule = SoundFontModule.new( )
+    
+        mod.src_oper = SoundFontPresetDataModulator.new( chunk_stream.get_u16( ) )
+        mod.dest_oper = chunk_stream.get_u16( )
+        mod.amount = chunk_stream.get_u16( )
+        mod.amt_src_oper = SoundFontPresetDataModulator.new( chunk_stream.get_u16( ) )
+        mod.trans_oper = chunk_stream.get_u16( )
+        mods.append( mod )
 
-	return mods
+    return mods
 
 func _read_pdta_gen( stream:StreamPeerBuffer ) -> Array:
-	#
-	# gen 読み込み
-	# @param	stream	ストリーム
-	# @return	generatorデータのリスト
-	#
+    #
+    # gen 読み込み
+    # @param	stream	ストリーム
+    # @return	generatorデータのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream )
-	var gens:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream )
+    var gens:Array = Array( )
 
-	if chunk.header.substr( 1, 3 ) != "gen":
-		print( "Doesn't exist *gen header." )
-		breakpoint
+    if chunk.header.substr( 1, 3 ) != "gen":
+        print( "Doesn't exist *gen header." )
+        breakpoint
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	# 4 bytes
-	#while 0 < chunk_stream.get_available_bytes( ):
-	for i in range( chunk_stream.get_available_bytes( ) / 4 ):
-		var gen:SoundFontGenerator = SoundFontGenerator.new( )
-		
-		gen.gen_oper = chunk_stream.get_u16( )
-		var uamount:int = chunk_stream.get_u16( )
-		gen.uamount = uamount
-		gen.amount = uamount if uamount <= 32767 else -( 65536 - uamount )
+    # 4 bytes
+    #while 0 < chunk_stream.get_available_bytes( ):
+    for i in range( chunk_stream.get_available_bytes( ) / 4 ):
+        var gen:SoundFontGenerator = SoundFontGenerator.new( )
+        
+        gen.gen_oper = chunk_stream.get_u16( )
+        var uamount:int = chunk_stream.get_u16( )
+        gen.uamount = uamount
+        gen.amount = uamount if uamount <= 32767 else -( 65536 - uamount )
 
-		gens.append( gen )
+        gens.append( gen )
 
-	return gens
+    return gens
 
 func _read_pdta_inst( stream:StreamPeerBuffer ) -> Array:
-	#
-	# inst読み込み
-	# @param	stream	ストリーム
-	# @return	楽器データのリスト
-	#
+    #
+    # inst読み込み
+    # @param	stream	ストリーム
+    # @return	楽器データのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "inst" )
-	var insts:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "inst" )
+    var insts:Array = Array( )
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	while 0 < chunk_stream.get_available_bytes( ):
-		var inst:SoundFontInstrument = SoundFontInstrument.new( )
-	
-		inst.name = chunk_stream.get_string( 20 )
-		inst.inst_bag_ndx = chunk_stream.get_u16( )
-		insts.append( inst )
+    while 0 < chunk_stream.get_available_bytes( ):
+        var inst:SoundFontInstrument = SoundFontInstrument.new( )
+    
+        inst.name = chunk_stream.get_string( 20 )
+        inst.inst_bag_ndx = chunk_stream.get_u16( )
+        insts.append( inst )
 
-	return insts
+    return insts
 
 func _read_pdta_shdr( stream:StreamPeerBuffer ) -> Array:
-	#
-	# shdr 読み込み
-	# @param	stream	ストリーム
-	# @return	波形データのリスト
-	#
+    #
+    # shdr 読み込み
+    # @param	stream	ストリーム
+    # @return	波形データのリスト
+    #
 
-	var chunk:SoundFontChunk = self._read_chunk( stream, "shdr" )
-	var shdrs:Array = Array( )
+    var chunk:SoundFontChunk = self._read_chunk( stream, "shdr" )
+    var shdrs:Array = Array( )
 
-	var chunk_stream:StreamPeerBuffer = chunk.stream
+    var chunk_stream:StreamPeerBuffer = chunk.stream
 
-	while 0 < chunk_stream.get_available_bytes( ):
-		var shdr:SoundFontSampleHeader = SoundFontSampleHeader.new( )
-	
-		shdr.name = chunk_stream.get_string( 20 )
-		shdr.start = chunk_stream.get_u32( )
-		shdr.end = chunk_stream.get_u32( )
-		shdr.start_loop = chunk_stream.get_u32( )
-		shdr.end_loop = chunk_stream.get_u32( )
-		shdr.sample_rate = chunk_stream.get_u32( )
-		shdr.original_key = chunk_stream.get_u8( )
-		shdr.pitch_correction = chunk_stream.get_8( )
-		shdr.sample_link = chunk_stream.get_u16( )
-		shdr.sample_type = chunk_stream.get_u16( )
-		shdrs.append( shdr )
+    while 0 < chunk_stream.get_available_bytes( ):
+        var shdr:SoundFontSampleHeader = SoundFontSampleHeader.new( )
+    
+        shdr.name = chunk_stream.get_string( 20 )
+        shdr.start = chunk_stream.get_u32( )
+        shdr.end = chunk_stream.get_u32( )
+        shdr.start_loop = chunk_stream.get_u32( )
+        shdr.end_loop = chunk_stream.get_u32( )
+        shdr.sample_rate = chunk_stream.get_u32( )
+        shdr.original_key = chunk_stream.get_u8( )
+        shdr.pitch_correction = chunk_stream.get_8( )
+        shdr.sample_link = chunk_stream.get_u16( )
+        shdr.sample_type = chunk_stream.get_u16( )
+        shdrs.append( shdr )
 
-	return shdrs
+    return shdrs

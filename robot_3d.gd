@@ -6,4 +6,4 @@ onready var model = $Model
 
 
 func _process(delta):
-	model.rotate_y(delta * 0.7)
+    model.rotate_y(delta * 0.7)

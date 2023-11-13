@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://Assets/robot_demo.png" type="Texture" id=2]
 [ext_resource path="res://robot_3d.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/midi/MidiPlayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://main.gd" type="Script" id=5]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Viewport")
@@ -61,3 +63,10 @@ frames = SubResource( 7 )
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 512, 300 )
 current = true
+
+[node name="Piano" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="MidiPlayer" parent="Piano" instance=ExtResource( 4 )]
+file = "res://Assets/midi_files/fairyland_gm.mid"
+soundfont = "res://Assets/Aspirin-Stereo.sf2"
