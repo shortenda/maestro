@@ -52,6 +52,7 @@ config/icon="res://Assets/icon.png"
 [autoload]
 
 SongProgress="*res://song_progress.gd"
+MidiPlayerSingleton="*res://midi_player_singleton.tscn"
 
 [display]
 

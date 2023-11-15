@@ -1,27 +1,13 @@
-extends Node
+extends Node2D
 
 const SMF = preload("res://addons/midi/SMF.gd")
 const Utility = preload("res://addons/midi/Utility.gd")
 
-const note_scene = preload("res://Note.tscn")
-
-onready var midi_player:MidiPlayer = $MidiPlayer
 
 # var seconds_to_timebase = tempo / 60.0
 # var timebase_to_seconds = 60.0 / tempo
 
-
-
-func track_coroutine(track: SMF.MIDITrack):
-    print("Started coroutine for track", track.track_number)
-    for event_chunk in track.events:
-        # TODO instead, yield for some period of time before the event chunk,
-        # and start animating the note.
-        yield(SongProgress.song_timers.await_time(event_chunk.time/200), "time_reached")
-        print("Note will play soon!")
-        $MidiPlayer.receive_raw_smf_midi_event(event_chunk.channel_number, event_chunk.event)
-
-var track_coroutines = []
+const midi_track = preload("res://midi_track.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,5 +17,11 @@ func _ready():
     if result.error != OK:
         print("Error loading midi file!")
     
+    var track_i = 0
     for track in result.data.tracks:
-        track_coroutines.append(track_coroutine(track))
+        var track_node = midi_track.instance()
+        track_node.track = track
+        track_node.set_position(self.get_position() + Vector2(30, 0) * track_i)
+        add_child(track_node)
+        track_i+=1
+

@@ -7,6 +7,7 @@ extends Path2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    self.curve.clear_points ()
     self.curve.add_point($Start.position)
     self.curve.add_point($Finish.position)
 

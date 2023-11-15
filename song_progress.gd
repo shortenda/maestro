@@ -5,7 +5,7 @@ extends Node
 # var a = 2
 # var b = "text"
 
-var current_time = 0
+var current_time = -5
 
 var song_timers = TimerCollection.new()
 
@@ -20,6 +20,9 @@ func _process(delta):
 class SongTimer:
     signal time_reached
     var time: float
+    
+    func _signal_time_reached():
+        emit_signal("time_reached")
     
     func _init(t: float):
         time = t
@@ -37,13 +40,13 @@ class TimerCollection:
             if next_timer_index == -1:
                 return
 
-            var timer_pair = song_timers[next_timer_index]
-            if current_time < timer_pair.time:
+            var song_timer = song_timers[next_timer_index]
+            if current_time < song_timer.time:
                 return
             
             # else, trigger next_timer_index, and swap a new timer into the same
             # place in the array before removing the last element.
-            timer_pair.emit_signal("time_reached")
+            song_timer._signal_time_reached()
             var back_timer = song_timers.pop_back()
             
             # If there's no back element, or this was the back element, return.

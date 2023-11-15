@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Note.tscn" type="PackedScene" id=1]
+[ext_resource path="res://midi_track.gd" type="Script" id=2]
+[ext_resource path="res://path_2d_from_start_and_finish.gd" type="Script" id=4]
+
+[sub_resource type="Curve2D" id=8]
+bake_interval = 147.8
+_data = {
+"points": PoolVector2Array(  )
+}
+
+[node name="MidiTrack" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 8 )
+script = ExtResource( 4 )
+
+[node name="Start" type="Node2D" parent="Path2D"]
+position = Vector2( 150, 50 )
+
+[node name="Finish" type="Node2D" parent="Path2D"]
+position = Vector2( 150, 500 )
+
+[node name="PathFollow2D" parent="Path2D" instance=ExtResource( 1 )]
