@@ -58,6 +58,7 @@ class TempSoundFontBag:
     var coarse_tune:int
     var fine_tune:int
     var key_range:TempSoundFontRange
+    var velocity_range:TempSoundFontRange
     var instrument:TempSoundFontInstrument
     var pan:float = 0.5
 
@@ -243,6 +244,8 @@ func read_soundfont( sf:SoundFont.SoundFontData, need_program_numbers:Array = []
                         bag.pan = float( gen.amount + 500 ) / 1000.0
                     SoundFont.gen_oper_instrument:
                         bag.instrument = sf_insts[gen.uamount]
+                    SoundFont.gen_oper_vel_range:
+                        bag.velocity_range = TempSoundFontRange.new( gen.uamount & 0xFF, gen.uamount >> 8 )
             if bag.instrument != null:
                 preset.bags.append( bag )
             gen_index = gen_next
@@ -464,8 +467,8 @@ func _read_soundfont_preset_compose_sample( sf:SoundFont.SoundFontData, preset:P
                 instrument.volume_db = volume_db
                 instrument.ads_state = ads_state
                 instrument.release_state = release_state
-                instrument.vel_range_min = vel_range_min
-                instrument.vel_range_max = vel_range_max
+                instrument.vel_range_min = max(vel_range_min, pbag.velocity_range.low)
+                instrument.vel_range_max = min(vel_range_max, pbag.velocity_range.high)
 
 func _notification( what:int ):
     #

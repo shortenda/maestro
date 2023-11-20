@@ -54,7 +54,7 @@ func _ready():
         var open_note_count = 0
         var start_note = null
         # We have to handle the note on event, continue until we have no open notes.
-        
+
         var note_effects = []
         
         while true:
