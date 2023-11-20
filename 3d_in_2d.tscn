@@ -70,3 +70,7 @@ margin_right = 884.0
 margin_bottom = 439.0
 rect_clip_content = true
 script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0

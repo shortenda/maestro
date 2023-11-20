@@ -31,6 +31,15 @@ var note_animation_length = 0
 
 var note_stage_length = 0
 
+var key_to_press
+
+var key_pressed
+
+func _unhandled_input(event):
+    if event is InputEventKey:
+        if event.pressed and event.scancode == OS.find_scancode_from_string(key_to_press):
+            key_pressed = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     # The length of the stage, + 
@@ -47,6 +56,9 @@ func _ready():
     
     for effect in effects:
         yield(SongProgress.song_timers.await_event_chunk(effect.event_chunk), "time_reached")
+        if not key_pressed:
+            break
+        # Check if input was pressed, if not, then return.
         MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
             effect.event_chunk.channel_number, effect.event_chunk.event)
     yield(SongProgress.song_timers.await_time(animation_end_time), "time_reached")

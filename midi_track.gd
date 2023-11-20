@@ -22,6 +22,8 @@ static func schedule_midi_event(event_chunk: SMF.MIDIEventChunk):
     MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
         event_chunk.channel_number, event_chunk.event)
 
+var key_to_press
+
 var stage_length = 0
 
 func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
@@ -92,6 +94,7 @@ func _ready():
                 note.animation_start_time = start_note.time - SongProgress.real_time_to_midi_ticks(2)
                 note.animation_end_time = track.events[i].time
                 note.note_stage_length = stage_length
+                note.key_to_press = key_to_press
                 # note.play_start_time = note_start_time
                 note.effects = note_effects
                 add_child(note)
