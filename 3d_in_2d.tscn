@@ -63,5 +63,10 @@ frames = SubResource( 7 )
 offset = Vector2( 512, 300 )
 current = true
 
-[node name="Piano" type="Node2D" parent="."]
+[node name="Control" type="Control" parent="."]
+margin_left = 684.0
+margin_top = 39.0
+margin_right = 884.0
+margin_bottom = 439.0
+rect_clip_content = true
 script = ExtResource( 5 )

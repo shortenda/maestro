@@ -155,6 +155,8 @@ class SMFParseResult:
 class SMFData:
     var format_type:int
     var track_count:int
+    
+    # Tickets per 10 quarter notes?
     var timebase:int
     var tracks:Array
 

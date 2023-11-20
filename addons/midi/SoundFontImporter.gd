@@ -51,7 +51,6 @@ func import( source_file:String, save_path:String, s:Dictionary, platform_varian
         return result.error
 
     var bank: = Bank.new( )
-    print("test")
     
     bank.read_soundfont( result.data )
 

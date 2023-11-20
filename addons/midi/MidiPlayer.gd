@@ -1157,6 +1157,8 @@ func _process_track_system_event( channel:GodotMIDIPlayerChannelStatus, event:SM
 
     match event.args.type:
         SMF.MIDISystemEventType.set_tempo:
+            # 60 seconds in micros
+            # tempo is beats per minute
             self.tempo = 60000000.0 / float( event.args.bpm )
         SMF.MIDISystemEventType.text_event:
             self.emit_signal( "appeared_text_event", event.args.text )

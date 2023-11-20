@@ -1,21 +1,58 @@
 extends Node
 
+const SMF = preload("res://addons/midi/SMF.gd")
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-var current_time = -5
+var current_time = 0
 
 var song_timers = TimerCollection.new()
 
+var smf_data: SMF.SMFData
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
+    pass
+
+var tempo: float
+
+var timebase_to_seconds: float
+
+var seconds_to_timebase: float
+
+func set_tempo( bpm:float ) -> void:
+    #
+    # テンポ設定
+    # @param	bpm	テンポ
+    #
+
+    tempo = bpm
+    self.seconds_to_timebase = tempo / 60.0
+    self.timebase_to_seconds = 60.0 / tempo
+
+# TODO make this real
+func real_time_to_midi_ticks(duration):
+    return float( self.smf_data.timebase ) * duration * self.seconds_to_timebase
+
+# Leave two seconds to display the note.
+func time_to_spool_event(event_chunk):
+    return event_chunk.time -  real_time_to_midi_ticks(2.0)
+
+# static func fake_time(event_chunk):
+#    return event_chunk.time / 30.0
 
 func _process(delta):
-    current_time += delta
+    current_time += real_time_to_midi_ticks(delta)
     song_timers.check_timers(current_time)
+
+
+# Tempo is set in microseconds per quarter note
+
+# Header determines the number of ticks per quarter note
+
+# microseconds per tick = microseconds per quarter note / ticks per quarter note
 
 class SongTimer:
     signal time_reached
@@ -74,6 +111,13 @@ class TimerCollection:
         song_timers.append(timer)
         maybe_update_timer_index(t, song_timers.size() - 1)
         return timer
+        
+    func await_event_chunk_spool(event_chunk: SMF.MIDIEventChunk):
+        return await_time(SongProgress.time_to_spool_event(event_chunk))
+        
+
+    func await_event_chunk(event_chunk: SMF.MIDIEventChunk):
+        return await_time(event_chunk.time)
 
     func maybe_update_timer_index(new_timer_value: float, new_timer_index: int):
         if next_timer_index == -1 or new_timer_value < song_timers[next_timer_index].time:

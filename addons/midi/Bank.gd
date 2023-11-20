@@ -472,9 +472,10 @@ func _notification( what:int ):
     # 通知（メモリ破棄用）
     # @param	what	通知要因
     #
+    pass
 
-    if what == NOTIFICATION_PREDELETE:
-        for i in self.presets.keys( ):
-            var preset:Preset = self.presets[i]
-            preset.instruments = Array()
-            preset.bags = Array()
+    #if what == NOTIFICATION_PREDELETE:
+    #    for i in self.presets.keys( ):
+    #        var preset:Preset = self.presets[i]
+    #        preset.instruments = Array()
+    #        preset.bags = Array()

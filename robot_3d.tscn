@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://robot_3d.gd" type="Script" id=1]
 
@@ -57,6 +57,9 @@ emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
 
+[sub_resource type="Environment" id=6]
+adjustment_enabled = true
+
 [node name="Robot3D" type="Spatial"]
 script = ExtResource( 1 )
 
@@ -78,3 +81,6 @@ light_color = Color( 1, 0.915375, 0.816406, 1 )
 [node name="OmniLight2" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5788, 1.43155, 2.43657 )
 light_color = Color( 0.816406, 1, 0.995697, 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 6 )
