@@ -7,33 +7,43 @@ const Utility = preload("res://addons/midi/Utility.gd")
 # var seconds_to_timebase = tempo / 60.0
 # var timebase_to_seconds = 60.0 / tempo
 
-const midi_track = preload("res://midi_track.tscn")
+const note_track = preload("res://note_track.tscn")
+
+const MidiScheduler = preload("res://midi_scheduler.gd")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    print ("test")
-    var test = SMF.new()
-    var result = test.read_file("res://Assets/midi_files/maestro.mid")
+    var standard_midi_file = SMF.new()
+    var result = standard_midi_file.read_file("res://Assets/midi_files/throughthefireandflames.mid")
     if result.error != OK:
         print("Error loading midi file!")
-        
+    
     SongProgress.smf_data = result.data
     
     var key_array = ["A", "S", "D", "J", "K", "L"]
 
+    var note_tracks = []
     var track_i = 0
-    for track in result.data.tracks:
-        var track_node = midi_track.instance()
-        track_node.track = track
-        track_node.set_position(Vector2(30, 0) * track_i)
-        track_node.stage_length = self.rect_size.y
-        track_node.key_to_press = key_array[track_i]
+    var gap = 50
+    for key in key_array:
+        var track_node = note_track.instance()
+        track_node.set_position(Vector2(gap, 0) * track_i)
+        track_node.key_to_press = key
         add_child(track_node)
         var track_letter = Label.new()
-        track_letter.text = key_array[track_i]
-        track_letter.rect_position.x = 30 * track_i
+        track_letter.text = key
+        track_letter.rect_position.x = gap * track_i
         track_letter.rect_size.x = 20
         track_letter.align = Label.ALIGN_CENTER
         add_child(track_letter)
-        track_i+=1
+        note_tracks.append(track_node)
+        track_i += 1
+        
+    var midi_scheduler = MidiScheduler.new()
+    midi_scheduler.note_tracks = note_tracks
+    
+    for track in result.data.tracks:
+        midi_scheduler.start_track_coroutine(track, self.rect_size.y)
+    
 

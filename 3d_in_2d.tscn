@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://Assets/robot_demo.png" type="Texture" id=2]
 [ext_resource path="res://robot_3d.tscn" type="PackedScene" id=3]
+[ext_resource path="res://midi_scheduler.gd" type="Script" id=4]
 [ext_resource path="res://main.gd" type="Script" id=5]
 
 [sub_resource type="ViewportTexture" id=1]
@@ -68,9 +69,12 @@ margin_left = 684.0
 margin_top = 39.0
 margin_right = 884.0
 margin_bottom = 439.0
-rect_clip_content = true
 script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0
+
+[node name="note_scheduler" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource( 4 )

@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/midi/MidiPlayer.gd"
 }, {
+"base": "Node2D",
+"class": "Note",
+"language": "GDScript",
+"path": "res://note.gd"
+}, {
 "base": "Reference",
 "class": "SMF",
 "language": "GDScript",
@@ -38,6 +43,7 @@ _global_script_class_icons={
 "AudioStreamPlayerADSR": "",
 "Bank": "",
 "MidiPlayer": "res://addons/midi/icon.png",
+"Note": "",
 "SMF": "",
 "SoundFont": ""
 }

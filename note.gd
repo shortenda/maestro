@@ -2,6 +2,8 @@ extends Node2D
 
 const SMF = preload("res://addons/midi/SMF.gd")
 
+class_name Note
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -26,6 +28,10 @@ var note_length = 0
 # The length of the note in song-seconds
 var note_duration = 0
 
+var _note_start_time
+
+var _note_end_time
+
 # How far to animate the note between animation_start_time and animation_end_time.
 var note_animation_length = 0
 
@@ -39,6 +45,12 @@ func _unhandled_input(event):
     if event is InputEventKey:
         if event.pressed and event.scancode == OS.find_scancode_from_string(key_to_press):
             key_pressed = true
+
+func note_start_time():
+    return _note_start_time
+    
+func note_end_time():
+    return _note_end_time
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

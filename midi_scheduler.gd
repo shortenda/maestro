@@ -8,33 +8,36 @@ const Note = preload("res://note.gd")
 # var a = 2
 # var b = "text"
 
-var track: SMF.MIDITrack = null
-
 const note_scene = preload("res://Note.tscn")
+
+var note_tracks: Array = []
+
+# Whether the head of the deque overlaps with note.
+func schedule_note(note: Note):
+    for note_track in note_tracks:
+        if note_track.can_accept_note(note):
+            note_track.add_note(note)
+            return true
+    return false
 
 static func should_spool_event(event_chunk):
     return SongProgress.current_time >= SongProgress.time_to_spool_event(event_chunk)
-
-var scheduled_event_coroutines = []
 
 static func schedule_midi_event(event_chunk: SMF.MIDIEventChunk):
     yield(SongProgress.song_timers.await_event_chunk(event_chunk), "time_reached");
     MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
         event_chunk.channel_number, event_chunk.event)
 
-var key_to_press
-
-var stage_length = 0
-
-func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
+static func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
     if (event_chunk.event.type == SMF.MIDIEventType.system_event and
             event_chunk.event.args.type == SMF.MIDISystemEventType.set_tempo):
         SongProgress.set_tempo(60000000.0 / float( event_chunk.event.args.bpm ))
         pass
     schedule_midi_event(event_chunk)
 
+
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func start_track_coroutine(track: SMF.MIDITrack, stage_length):
     print("Started coroutine for track", track.track_number)
     var notification = MidiPlayerSingleton.wait_for_ready()
     if notification:
@@ -93,11 +96,12 @@ func _ready():
                 # but only for those notes, so this may be ok.
                 note.animation_start_time = start_note.time - SongProgress.real_time_to_midi_ticks(2)
                 note.animation_end_time = track.events[i].time
+                note._note_start_time = start_note.time
+                note._note_end_time = track.events[i].time
                 note.note_stage_length = stage_length
-                note.key_to_press = key_to_press
                 # note.play_start_time = note_start_time
                 note.effects = note_effects
-                add_child(note)
+                schedule_note(note)
                 found_end = true
             i += 1
             if found_end:
