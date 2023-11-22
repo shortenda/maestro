@@ -72,6 +72,12 @@ margin_bottom = 439.0
 rect_clip_content = true
 script = ExtResource( 5 )
 
+[node name="ColorRect" type="ColorRect" parent="Control"]
+anchor_top = 0.95
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 10.0
+
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0

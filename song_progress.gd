@@ -14,9 +14,11 @@ var smf_data: SMF.SMFData
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    pass
+    if tempo == 0:
+        set_tempo(60000000.0 / float(120))
+    current_time = -5000
 
-var tempo: float
+var tempo: float = 0
 
 var timebase_to_seconds: float
 

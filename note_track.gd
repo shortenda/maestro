@@ -31,7 +31,7 @@ func _on_note_completed(note: Note):
         breakpoint
     scheduled_notes.pop_front()
     
-    if not note.key_pressed:
+    if not note.key_was_pressed:
         emit_signal("missed_note")
     
     note.queue_free()

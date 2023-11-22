@@ -19,8 +19,8 @@ var effects = []
 class Effect:
     var event_chunk: SMF.MIDIEventChunk
 
-    func _init(event_chunk):
-        self.event_chunk = event_chunk
+    func _init(evt_chunk):
+        self.event_chunk = evt_chunk
 
 # The length of the note in units
 var note_length = 0
@@ -37,7 +37,7 @@ var note_animation_length = 0
 
 var note_stage_length = 0
 
-var key_pressed
+var key_was_pressed
 
 
 # Triggered when this note is next and the key for the track is pressed
@@ -45,7 +45,7 @@ func key_pressed():
     var target = SongProgress.real_time_to_midi_ticks(0.3)
     var val = abs(_note_start_time - SongProgress.current_time)
     if val < target:
-        key_pressed = true
+        key_was_pressed = true
 
 func note_start_time():
     return _note_start_time
@@ -71,7 +71,7 @@ func _ready():
     
     for effect in effects:
         yield(SongProgress.song_timers.await_event_chunk(effect.event_chunk), "time_reached")
-        if not key_pressed:
+        if not key_was_pressed:
             break
         # Check if input was pressed, if not, then return.
         MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
