@@ -11,17 +11,24 @@ const note_track = preload("res://note_track.tscn")
 
 const MidiScheduler = preload("res://midi_scheduler.gd")
 
+var missed_notes = 0
+
+func _on_missed_note():
+    missed_notes += 1
+    get_node("%ScoreLabel").text = str(missed_notes)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
     var standard_midi_file = SMF.new()
-    var result = standard_midi_file.read_file("res://Assets/midi_files/throughthefireandflames.mid")
+    var result = standard_midi_file.read_file("res://Assets/midi_files/maestro.mid")
     if result.error != OK:
         print("Error loading midi file!")
     
     SongProgress.smf_data = result.data
     
     var key_array = ["A", "S", "D", "J", "K", "L"]
+
+    
 
     var note_tracks = []
     var track_i = 0
@@ -30,6 +37,7 @@ func _ready():
         var track_node = note_track.instance()
         track_node.set_position(Vector2(gap, 0) * track_i)
         track_node.key_to_press = key
+        track_node.connect("missed_note", self, "_on_missed_note")
         add_child(track_node)
         var track_letter = Label.new()
         track_letter.text = key

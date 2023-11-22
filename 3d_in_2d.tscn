@@ -65,10 +65,11 @@ offset = Vector2( 512, 300 )
 current = true
 
 [node name="Control" type="Control" parent="."]
-margin_left = 684.0
+margin_left = 221.0
 margin_top = 39.0
 margin_right = 884.0
 margin_bottom = 439.0
+rect_clip_content = true
 script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="."]
@@ -78,3 +79,11 @@ margin_bottom = 14.0
 [node name="note_scheduler" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource( 4 )
+
+[node name="ScoreLabel" type="Label" parent="."]
+unique_name_in_owner = true
+margin_left = 134.0
+margin_top = 68.0
+margin_right = 211.0
+margin_bottom = 95.0
+align = 1

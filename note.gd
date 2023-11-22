@@ -37,20 +37,23 @@ var note_animation_length = 0
 
 var note_stage_length = 0
 
-var key_to_press
-
 var key_pressed
 
-func _unhandled_input(event):
-    if event is InputEventKey:
-        if event.pressed and event.scancode == OS.find_scancode_from_string(key_to_press):
-            key_pressed = true
+
+# Triggered when this note is next and the key for the track is pressed
+func key_pressed():
+    var target = SongProgress.real_time_to_midi_ticks(0.3)
+    var val = abs(_note_start_time - SongProgress.current_time)
+    if val < target:
+        key_pressed = true
 
 func note_start_time():
     return _note_start_time
-    
+
 func note_end_time():
     return _note_end_time
+
+signal note_completed(note)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -74,7 +77,7 @@ func _ready():
         MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
             effect.event_chunk.channel_number, effect.event_chunk.event)
     yield(SongProgress.song_timers.await_time(animation_end_time), "time_reached")
-    queue_free()
+    self.emit_signal("note_completed", self)
 
 func _process(_delta):
     # lerp between animation_start_time and animation_end_time
