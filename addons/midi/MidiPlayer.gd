@@ -12,6 +12,7 @@ class_name MidiPlayer, "icon.png"
 # Import
 const ADSR = preload( "ADSR.tscn" )
 
+const SoundFontBytes = preload("sound_font_bytes.gd")
 # -------------------------------------------------------
 # 定数
 const max_track:int = 16
@@ -177,7 +178,7 @@ export (float) var loop_start:float = 0.0
 # 全ての音をサウンドフォントから読むか？
 export (bool) var load_all_voices_from_soundfont:bool = true
 # サウンドフォント
-export (String, FILE, "*.sf2") var soundfont:String = "" setget set_soundfont
+export (Resource) var soundfont_bytes setget set_soundfont
 # mix_target same as AudioStreamPlayer's one
 export (int, "MIX_TARGET_STEREO", "MIX_TARGET_SURROUND", "MIX_TARGET_CENTER") var mix_target:int = AudioStreamPlayer.MIX_TARGET_STEREO
 # bus same as AudioStreamPlayer's one
@@ -399,8 +400,8 @@ func _prepare_to_play( ) -> bool:
     self._unlock( "prepare_to_play" )
 
     # サウンドフォントの再読み込みをさせる
-    if not self.load_all_voices_from_soundfont:
-        self.set_soundfont( self.soundfont )
+    # if not self.load_all_voices_from_soundfont:
+    #    self.set_soundfont( self.soundfont )
 
     return true
 
@@ -604,7 +605,9 @@ func set_max_polyphony( mp:int ) -> void:
 
     self._unlock( "set_max_polyphony" )
 
-func set_soundfont( path:String ) -> void:
+const SoundFont = preload("res://addons/midi/SoundFont.gd")
+
+func set_soundfont( file_bytes_resource: Resource ) -> void:
     #
     # サウンドフォント変更
     # @param	path	ファイルパス
@@ -612,20 +615,18 @@ func set_soundfont( path:String ) -> void:
 
     self._lock( "set_soundfont" )
 
-    soundfont = path
-
-    if path == null or path == "":
-        self.bank = null
-        self._unlock( "set_soundfont" )
-        return
+    soundfont_bytes = file_bytes_resource as SoundFontBytes
 
     var sf_reader: = SoundFont.new( )
-    var result: = sf_reader.read_file( soundfont )
+    var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
+    stream.set_data_array( soundfont_bytes.file_bytes )
+    stream.big_endian = false
+    var result: = sf_reader.read_from_buffer( stream )
 
     if result.error == OK:
         self.bank = Bank.new( )
         if self.load_all_voices_from_soundfont:
-            self.bank.read_soundfont( result.data )
+            self.bank.read_soundfont( result.data as SoundFont.SoundFontData )
         else:
             self.bank.read_soundfont( result.data, self._used_program_numbers )
 

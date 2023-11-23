@@ -5,6 +5,7 @@ enum Presets { PRESET_DEFAULT }
 
 const Bank = preload("Bank.gd")
 
+const SoundFontBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
 func get_importer_name( ):
     return "soundfont.plugin"
@@ -45,13 +46,24 @@ func get_option_visibility( option:String, options:Dictionary ):
     return true
 
 func import( source_file:String, save_path:String, s:Dictionary, platform_variants:Array, gen_files:Array ) -> int:
-    var sf_reader: = SoundFont.new( )
-    var result: = sf_reader.read_file( source_file )
-    if result.error != OK:
-        return result.error
-
-    var bank: = Bank.new( )
     
-    bank.read_soundfont( result.data )
+    # var sf_reader: = SoundFont.new( )
+    # var result: = sf_reader.read_file( source_file )
+    # if result.error != OK:
+    #    return result.error
+    #
+    # var bank: = Bank.new( )
+    
+    # bank.read_soundfont( result.data )
+    var f:File = File.new( )
+    
 
-    return ResourceSaver.save( "%s.%s" % [save_path, self.get_save_extension( )], bank, ResourceSaver.FLAG_COMPRESS )
+    var err:int = f.open( source_file, f.READ )
+    if err != OK:
+        return err
+        
+    var sound_font_bytes = SoundFontBytes.new()
+    sound_font_bytes.file_bytes = f.get_buffer(f.get_len())
+    var ret = ResourceSaver.save( "%s.%s" % [save_path, self.get_save_extension( )], sound_font_bytes, ResourceSaver.FLAG_COMPRESS )
+    f.close()
+    return ret

@@ -1,10 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://midi_player_singleton.gd" type="Script" id=1]
 [ext_resource path="res://addons/midi/MidiPlayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/[GD] The Grandeur D.sf2" type="Resource" id=3]
 
 [node name="MidiPlayerSingleton" type="Node"]
 script = ExtResource( 1 )
 
 [node name="MidiPlayer" parent="." instance=ExtResource( 2 )]
-soundfont = "res://Assets/[GD] The Grandeur D.sf2"
+soundfont_bytes = ExtResource( 3 )

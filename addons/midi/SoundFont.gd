@@ -196,6 +196,11 @@ class SoundFontParseResult:
     func _init( ):
         pass
 
+func read_from_buffer (stream: StreamPeerBuffer) -> SoundFontParseResult:
+    var result: = SoundFontParseResult.new( )    
+    result.data = self._read( stream )
+    return result
+
 func read_file( path:String ) -> SoundFontParseResult:
     #
     # ファイルから読み込み
@@ -203,20 +208,19 @@ func read_file( path:String ) -> SoundFontParseResult:
     # @return	サウンドフォント
     #
 
-    var result: = SoundFontParseResult.new( )
     var f:File = File.new( )
 
     var err:int = f.open( path, f.READ )
     if err != OK:
+        var result: = SoundFontParseResult.new( )
         result.error = err
         return result
     var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
     stream.set_data_array( f.get_buffer( f.get_len( ) ) )
     stream.big_endian = false
     f.close( )
-
-    result.data = self._read( stream )
-    return result
+    
+    return self.read_from_buffer(stream)
 
 func read_data( data:PoolByteArray ) -> SoundFontParseResult:
     #
