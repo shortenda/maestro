@@ -1,5 +1,5 @@
 extends Resource
 
-class_name SoundFontBytes
+class_name FileBytes
 
-export (PoolByteArray) var file_bytes
+export (PoolByteArray) var value

@@ -3,18 +3,16 @@ extends EditorImportPlugin
 
 enum Presets { PRESET_DEFAULT }
 
-const Bank = preload("Bank.gd")
-
 const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
 func get_importer_name( ):
-    return "soundfont.plugin"
+    return "midi.plugin"
 
 func get_visible_name( ):
-    return "SoundFont"
+    return "MidiImporter"
 
 func get_recognized_extensions( ):
-    return ["sf2"]
+    return ["mid"]
 
 func get_save_extension( ):
     return "res"
@@ -46,18 +44,8 @@ func get_option_visibility( option:String, options:Dictionary ):
     return true
 
 func import( source_file:String, save_path:String, s:Dictionary, platform_variants:Array, gen_files:Array ) -> int:
-    
-    # var sf_reader: = SoundFont.new( )
-    # var result: = sf_reader.read_file( source_file )
-    # if result.error != OK:
-    #    return result.error
-    #
-    # var bank: = Bank.new( )
-    
-    # bank.read_soundfont( result.data )
     var f:File = File.new( )
     
-
     var err:int = f.open( source_file, f.READ )
     if err != OK:
         return err

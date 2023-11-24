@@ -12,7 +12,7 @@ class_name MidiPlayer, "icon.png"
 # Import
 const ADSR = preload( "ADSR.tscn" )
 
-const SoundFontBytes = preload("sound_font_bytes.gd")
+const FileBytes = preload("sound_font_bytes.gd")
 # -------------------------------------------------------
 # 定数
 const max_track:int = 16
@@ -615,11 +615,9 @@ func set_soundfont( file_bytes_resource: Resource ) -> void:
 
     self._lock( "set_soundfont" )
 
-    soundfont_bytes = file_bytes_resource as SoundFontBytes
-
     var sf_reader: = SoundFont.new( )
     var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
-    stream.set_data_array( soundfont_bytes.file_bytes )
+    stream.set_data_array((file_bytes_resource as FileBytes).value)
     stream.big_endian = false
     var result: = sf_reader.read_from_buffer( stream )
 

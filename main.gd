@@ -11,7 +11,11 @@ const note_track = preload("res://note_track.tscn")
 
 const MidiScheduler = preload("res://midi_scheduler.gd")
 
+export (Resource) var midi_bytes_resource
+
 var missed_notes = 0
+
+const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
 func _on_missed_note():
     missed_notes += 1
@@ -20,7 +24,14 @@ func _on_missed_note():
 # Called when the node enters the scene tree for the first time.
 func _ready():
     var standard_midi_file = SMF.new()
-    var result = standard_midi_file.read_file("res://Assets/midi_files/maestro.mid")
+    
+    var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
+    stream.set_data_array((midi_bytes_resource as FileBytes).value)
+    stream.big_endian = true
+    var result = standard_midi_file.read_from_stream(stream)
+
+    midi_bytes_resource = null
+
     if result.error != OK:
         print("Error loading midi file!")
     

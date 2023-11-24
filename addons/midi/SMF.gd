@@ -256,6 +256,13 @@ class MIDIEventSystemEvent extends MIDIEvent:
 
 var last_event_type:int = 0
 
+func read_from_stream( stream: StreamPeerBuffer) -> SMFParseResult:
+    var result: = SMFParseResult.new( )
+    result.data = self._read( stream )
+    if result.data == null:
+        result.error = ERR_PARSE_ERROR
+    return result
+
 func read_file( path:String ) -> SMFParseResult:
     #
     # ファイルから読み込み
@@ -263,21 +270,18 @@ func read_file( path:String ) -> SMFParseResult:
     # @return	SMFParseResult
     #
 
-    var result: = SMFParseResult.new( )
     var f: = File.new( )
 
     var err:int = f.open( path, f.READ )
     if err != OK:
+        var result: = SMFParseResult.new( )
         result.error = err
         return result
     var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
     stream.set_data_array( f.get_buffer( f.get_len( ) ) )
     stream.big_endian = true
+    var result = self.read_from_stream(stream)
     f.close( )
-
-    result.data = self._read( stream )
-    if result.data == null:
-        result.error = ERR_PARSE_ERROR
     return result
 
 func read_data( data:PoolByteArray ) -> SMFParseResult:
