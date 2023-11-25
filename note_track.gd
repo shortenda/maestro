@@ -1,4 +1,4 @@
-extends Node2D
+extends Container
 
 const Note = preload("res://note.gd")
 
@@ -7,12 +7,14 @@ var scheduled_notes = []
 
 var key_to_press
 
-func _ready():
-    pass
-    
-signal missed_note
+var _track_label : Control
 
-signal hit_note
+var track_label_scene = preload("track_label.tscn")
+
+func _ready():
+    self._track_label = track_label_scene.instance()
+    self._track_label.get_node("Label").text = key_to_press
+    add_child(self._track_label)
 
 func _unhandled_input(event):
     if not event is InputEventKey:
@@ -26,20 +28,32 @@ func _unhandled_input(event):
         
     scheduled_notes.front().key_pressed()
 
+
+# Triggered when a note can be played.
+func _on_note_can_play(_note: Note):
+    self._track_label.get_node("ColorRect").color = Color(0, 255, 255)
+
+func _on_note_hit(_note: Note):
+    self._track_label.get_node("ColorRect").color = Color(0, 255, 0)
+
+func _on_note_missed(_note: Note):
+    self._track_label.get_node("ColorRect").color = Color(255, 0, 0)
+
 func _on_note_completed(note: Note):
     if note != scheduled_notes.front():
         breakpoint
-    scheduled_notes.pop_front()
-    
-    if not note.key_was_pressed:
-        emit_signal("missed_note")
+    scheduled_notes.pop_front()    
+    self._track_label.get_node("ColorRect").color = Color(255, 255, 255)
     
     note.queue_free()
 
 func add_note(note: Note):
     add_child(note)
     scheduled_notes.append(note)
+    note.connect("note_missed", self, "_on_note_missed")
+    note.connect("note_hit", self, "_on_note_hit")
     note.connect("note_completed", self, "_on_note_completed")
+    note.connect("note_can_play", self, "_on_note_can_play")
 
 func can_accept_note(note: Note):
     if scheduled_notes.empty():

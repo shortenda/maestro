@@ -9,7 +9,7 @@ const drum_track_bank:int = 128
 
 class_name Bank
 
-const SoundFont = preload("SoundFont.gd")
+const SoundFont = preload("res://addons/midi/SoundFont.gd")
 
 # 音色
 class Instrument:

@@ -17,9 +17,12 @@ var missed_notes = 0
 
 const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
-func _on_missed_note():
+func _on_missed_note(_note):
     missed_notes += 1
     get_node("%ScoreLabel").text = str(missed_notes)
+
+func _on_note(note: Note):
+    note.connect("note_missed", self, "_on_missed_note")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,28 +42,20 @@ func _ready():
     
     var key_array = ["A", "S", "D", "J", "K", "L"]
 
-    
-
     var note_tracks = []
     var track_i = 0
     var gap = 50
     for key in key_array:
         var track_node = note_track.instance()
-        track_node.set_position(Vector2(gap, 0) * track_i)
+        track_node.set_position(Vector2(gap * track_i + 50, 0))
         track_node.key_to_press = key
-        track_node.connect("missed_note", self, "_on_missed_note")
         add_child(track_node)
-        var track_letter = Label.new()
-        track_letter.text = key
-        track_letter.rect_position.x = gap * track_i
-        track_letter.rect_size.x = 20
-        track_letter.align = Label.ALIGN_CENTER
-        add_child(track_letter)
         note_tracks.append(track_node)
         track_i += 1
         
     var midi_scheduler = MidiScheduler.new()
     midi_scheduler.note_tracks = note_tracks
+    midi_scheduler.connect("note", self, "_on_note")
     
     for track in result.data.tracks:
         midi_scheduler.start_track_coroutine(track, self.rect_size.y)

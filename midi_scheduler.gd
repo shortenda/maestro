@@ -12,12 +12,16 @@ const note_scene = preload("res://Note.tscn")
 
 var note_tracks: Array = []
 
+# Triggered when a note is scheduled
+signal note(note)
+
 # Whether the head of the deque overlaps with note.
 func schedule_note(note: Note):
     for note_track in note_tracks:
         if note_track.can_accept_note(note):
             note_track.add_note(note)
             return true
+    breakpoint
     return false
 
 static func should_spool_event(event_chunk):
@@ -83,7 +87,10 @@ func start_track_coroutine(track: SMF.MIDITrack, stage_length):
                 note_node._note_end_time = track.events[i].time
                 note_node.note_stage_length = stage_length
                 note_node.effects = open_note.effects
-                schedule_note(note_node)                     
+                
+                
+                if schedule_note(note_node):
+                    self.emit_signal("note", note_node)
                 start_note_by_pitch.erase(note_off.note)
             else:
                 handle_non_note_midi_event(track.events[i])

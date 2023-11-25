@@ -66,23 +66,17 @@ offset = Vector2( 512, 300 )
 current = true
 
 [node name="Control" type="Control" parent="."]
-margin_left = 221.0
-margin_top = 39.0
-margin_right = 884.0
-margin_bottom = 439.0
+margin_left = 200.0
+margin_right = 900.0
+margin_bottom = 600.0
 rect_clip_content = true
 script = ExtResource( 5 )
 midi_bytes_resource = ExtResource( 6 )
 
 [node name="ColorRect" type="ColorRect" parent="Control"]
-anchor_top = 0.95
+anchor_top = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 10.0
-
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
 
 [node name="note_scheduler" type="Node" parent="."]
 unique_name_in_owner = true
@@ -90,8 +84,11 @@ script = ExtResource( 4 )
 
 [node name="ScoreLabel" type="Label" parent="."]
 unique_name_in_owner = true
-margin_left = 134.0
-margin_top = 68.0
-margin_right = 211.0
-margin_bottom = 95.0
+anchor_left = 0.1
+anchor_top = 0.5
+anchor_right = 0.1
+anchor_bottom = 0.5
+margin_right = 27.0
+margin_bottom = 14.0
+text = "Test"
 align = 1

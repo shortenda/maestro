@@ -13,6 +13,9 @@ class_name MidiPlayer, "icon.png"
 const ADSR = preload( "ADSR.tscn" )
 
 const FileBytes = preload("sound_font_bytes.gd")
+
+const SoundFont = preload("res://addons/midi/SoundFont.gd"
+)
 # -------------------------------------------------------
 # 定数
 const max_track:int = 16
@@ -604,8 +607,6 @@ func set_max_polyphony( mp:int ) -> void:
         self.audio_stream_players.append( audio_stream_player )
 
     self._unlock( "set_max_polyphony" )
-
-const SoundFont = preload("res://addons/midi/SoundFont.gd")
 
 func set_soundfont( file_bytes_resource: Resource ) -> void:
     #

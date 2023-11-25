@@ -2,6 +2,7 @@
 
 [ext_resource path="res://note_track.gd" type="Script" id=1]
 
-[node name="MidiTrack" type="Node2D"]
-scale = Vector2( 2, 1 )
+[node name="MidiTrack" type="Container"]
+margin_right = 20.0
+margin_bottom = 600.0
 script = ExtResource( 1 )
