@@ -1,8 +1,7 @@
-extends Control
+extends CanvasLayer
 
 const SMF = preload("res://addons/midi/SMF.gd")
 const Utility = preload("res://addons/midi/Utility.gd")
-
 
 # var seconds_to_timebase = tempo / 60.0
 # var timebase_to_seconds = 60.0 / tempo
@@ -17,9 +16,11 @@ var missed_notes = 0
 
 const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
+signal score_updated(misses)
+
 func _on_missed_note(_note):
     missed_notes += 1
-    get_node("%ScoreLabel").text = str(missed_notes)
+    self.emit_signal("score_updated", missed_notes)
 
 func _on_note(note: Note):
     note.connect("note_missed", self, "_on_missed_note")
@@ -49,7 +50,7 @@ func _ready():
         var track_node = note_track.instance()
         track_node.set_position(Vector2(gap * track_i + 50, 0))
         track_node.key_to_press = key
-        add_child(track_node)
+        $Control.add_child(track_node)
         note_tracks.append(track_node)
         track_i += 1
         
@@ -58,6 +59,6 @@ func _ready():
     midi_scheduler.connect("note", self, "_on_note")
     
     for track in result.data.tracks:
-        midi_scheduler.start_track_coroutine(track, self.rect_size.y)
+        midi_scheduler.start_track_coroutine(track, $Control.rect_size.y)
     
 

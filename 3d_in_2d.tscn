@@ -1,38 +1,39 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://Assets/robot_demo.png" type="Texture" id=2]
 [ext_resource path="res://robot_3d.tscn" type="PackedScene" id=3]
-[ext_resource path="res://midi_scheduler.gd" type="Script" id=4]
-[ext_resource path="res://main.gd" type="Script" id=5]
+[ext_resource path="res://score_label.gd" type="Script" id=4]
+[ext_resource path="res://piano_notes.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/midi_files/maestro.mid" type="Resource" id=6]
+[ext_resource path="res://input_passer.gd" type="Script" id=7]
 
-[sub_resource type="ViewportTexture" id=1]
+[sub_resource type="ViewportTexture" id=9]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 2 )
 region = Rect2( 64, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
 region = Rect2( 128, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )
 region = Rect2( 192, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 2 )
 region = Rect2( 256, 0, 64, 64 )
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -40,50 +41,19 @@ animations = [ {
 
 [node name="3Din2D" type="Node2D"]
 script = ExtResource( 1 )
+robot_scene_node_path = NodePath("Viewport/Robot3D")
+robot_viewport_node_path = NodePath("Viewport")
+piano_viewport_path = NodePath("ScoreLabel/Viewport")
 
-[node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 300, 300 )
-own_world = true
-transparent_bg = true
-msaa = 2
-hdr = false
-usage = 3
-
-[node name="Robot3D" parent="Viewport" instance=ExtResource( 3 )]
-
-[node name="ViewportSprite" type="Sprite" parent="."]
-position = Vector2( 650, 300 )
-scale = Vector2( 1, -1 )
-texture = SubResource( 1 )
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 350, 300 )
-scale = Vector2( 3, 3 )
-frames = SubResource( 7 )
+[node name="InputPasser" type="Node" parent="."]
+script = ExtResource( 7 )
+input_receiver_path = NodePath("../ScoreLabel/Viewport")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 512, 300 )
 current = true
 
-[node name="Control" type="Control" parent="."]
-margin_left = 200.0
-margin_right = 900.0
-margin_bottom = 600.0
-rect_clip_content = true
-script = ExtResource( 5 )
-midi_bytes_resource = ExtResource( 6 )
-
-[node name="ColorRect" type="ColorRect" parent="Control"]
-anchor_top = 0.8
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="note_scheduler" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource( 4 )
-
 [node name="ScoreLabel" type="Label" parent="."]
-unique_name_in_owner = true
 anchor_left = 0.1
 anchor_top = 0.5
 anchor_right = 0.1
@@ -92,3 +62,34 @@ margin_right = 27.0
 margin_bottom = 14.0
 text = "Test"
 align = 1
+script = ExtResource( 4 )
+
+[node name="Viewport" type="Viewport" parent="ScoreLabel"]
+size = Vector2( 400, 600 )
+msaa = 3
+hdr = false
+disable_3d = true
+usage = 0
+
+[node name="NotesScene" parent="ScoreLabel/Viewport" instance=ExtResource( 5 )]
+midi_bytes_resource = ExtResource( 6 )
+
+[node name="ViewportSprite" type="Sprite" parent="."]
+position = Vector2( 511, 301 )
+texture = SubResource( 9 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 350, 300 )
+scale = Vector2( 3, 3 )
+frames = SubResource( 7 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 1000, 600 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+msaa = 3
+hdr = false
+usage = 3
+
+[node name="Robot3D" parent="Viewport" instance=ExtResource( 3 )]
