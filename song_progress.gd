@@ -39,10 +39,12 @@ func real_time_to_midi_ticks(duration):
     return float( self.smf_data.timebase ) * duration * self.seconds_to_timebase
 
 # Show the note two seconds before it plays.
-const note_preview_time = 2.0
+const note_preview_time:float = 2.0
 
 # How long the player has to press the key before the note plays.
-const key_press_interval = 0.4
+const key_press_interval:float = 0.5
+
+const track_min_gap: float = 0.1
 
 # Leave two seconds to display the note.
 func time_to_spool_event(event_chunk):

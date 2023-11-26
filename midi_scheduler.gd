@@ -81,7 +81,7 @@ func start_track_coroutine(track: SMF.MIDITrack, stage_length):
                 open_note.effects.append(Note.Effect.new(track.events[i]))
                 
                 var note_node = note_scene.instance()
-                note_node.animation_start_time = open_note.start_note.time - SongProgress.real_time_to_midi_ticks(2)
+                note_node.animation_start_time = open_note.start_note.time - SongProgress.real_time_to_midi_ticks(SongProgress.note_preview_time)
                 note_node.animation_end_time = track.events[i].time
                 note_node._note_start_time = open_note.start_note.time
                 note_node._note_end_time = track.events[i].time

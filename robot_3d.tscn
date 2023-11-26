@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://robot_3d.gd" type="Script" id=1]
+[ext_resource path="res://fix_viewport_filter.gd" type="Script" id=2]
 
 [sub_resource type="ViewportTexture" id=7]
 flags = 4
@@ -69,6 +70,7 @@ script = ExtResource( 1 )
 [node name="PianoNotes" type="Sprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.973778, -0.227501, 0, 0.227501, 0.973778, 0.576798, -0.524022, -3.71641 )
 texture = SubResource( 7 )
+script = ExtResource( 2 )
 
 [node name="Model" type="MeshInstance" parent="."]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.12599, 0, 2.90299 )

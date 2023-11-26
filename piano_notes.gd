@@ -58,6 +58,9 @@ func _ready():
     midi_scheduler.note_tracks = note_tracks
     midi_scheduler.connect("note", self, "_on_note")
     
+    $Control/ColorRect.anchor_top = \
+        1.0 - SongProgress.key_press_interval/SongProgress.note_preview_time
+    
     for track in result.data.tracks:
         midi_scheduler.start_track_coroutine(track, $Control.rect_size.y)
     

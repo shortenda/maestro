@@ -1,19 +1,29 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://label_font.tres" type="DynamicFont" id=1]
 
 [node name="Control" type="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
+margin_top = -40.0
+margin_right = 50.0
+margin_bottom = 10.0
 grow_vertical = 0
-rect_min_size = Vector2( 40, 40 )
+rect_min_size = Vector2( 50, 50 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="RichTextLabel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "A"
-align = 1
-valign = 2
+custom_fonts/mono_font = ExtResource( 1 )
+custom_fonts/bold_italics_font = ExtResource( 1 )
+custom_fonts/italics_font = ExtResource( 1 )
+custom_fonts/bold_font = ExtResource( 1 )
+custom_fonts/normal_font = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[color=black][b]Test[/b][/color]"
+text = "Test"
+scroll_active = false
