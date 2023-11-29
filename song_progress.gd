@@ -8,12 +8,14 @@ const SMF = preload("res://addons/midi/SMF.gd")
 
 var current_time = 0
 
-var song_timers = TimerCollection.new()
+var song_timers
 
 var smf_data: SMF.SMFData
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    song_timers = TimerCollection.new(self)
+    self.add_child(song_timers)
     if tempo == 0:
         set_tempo(60000000.0 / float(120))
     current_time = -5000
@@ -74,13 +76,15 @@ class SongTimer:
     func _init(t: float):
         time = t
 
-class TimerCollection:
+class TimerCollection extends Node:
     var signal_count = 0
     var song_timers = []
     var next_timer_index = -1
     
-    func _init():
-        pass
+    var _song_progress = null
+    
+    func _init(song_progress):
+        self._song_progress = song_progress
     
     func check_timers(current_time: float):
         while true:
@@ -123,7 +127,7 @@ class TimerCollection:
         return timer
         
     func await_event_chunk_spool(event_chunk: SMF.MIDIEventChunk):
-        return await_time(SongProgress.time_to_spool_event(event_chunk))
+        return await_time(_song_progress.time_to_spool_event(event_chunk))
         
 
     func await_event_chunk(event_chunk: SMF.MIDIEventChunk):

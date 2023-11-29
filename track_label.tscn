@@ -1,19 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://track_label.gd" type="Script" id=2]
 
 [node name="Control" type="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -40.0
-margin_right = 50.0
-margin_bottom = 10.0
 grow_vertical = 0
 rect_min_size = Vector2( 50, 50 )
-
-[node name="ColorRect" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+script = ExtResource( 2 )
 
 [node name="Label" type="RichTextLabel" parent="."]
 anchor_right = 1.0
@@ -27,3 +22,9 @@ bbcode_enabled = true
 bbcode_text = "[color=black][b]Test[/b][/color]"
 text = "Test"
 scroll_active = false
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0

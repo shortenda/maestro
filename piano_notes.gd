@@ -1,29 +1,29 @@
 extends CanvasLayer
 
 const SMF = preload("res://addons/midi/SMF.gd")
+
 const Utility = preload("res://addons/midi/Utility.gd")
-
-# var seconds_to_timebase = tempo / 60.0
-# var timebase_to_seconds = 60.0 / tempo
-
-const note_track = preload("res://note_track.tscn")
 
 const MidiScheduler = preload("res://midi_scheduler.gd")
 
-export (Resource) var midi_bytes_resource
-
-var missed_notes = 0
+const MidiSchdulerTrack = preload("res://midi_scheduler_track.gd")
 
 const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
+export (Resource) var midi_bytes_resource
+
+export (NodePath) var track_container_node_path
+
+export (NodePath) var key_container_node_path
+
+export (NodePath) var score_tracker_node_path
+
 signal score_updated(misses)
 
-func _on_missed_note(_note):
-    missed_notes += 1
-    self.emit_signal("score_updated", missed_notes)
+func _on_note_scheduled(note: Note):
+    pass
 
-func _on_note(note: Note):
-    note.connect("note_missed", self, "_on_missed_note")
+var _tracks: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,29 +39,34 @@ func _ready():
     if result.error != OK:
         print("Error loading midi file!")
     
-    SongProgress.smf_data = result.data
+    get_node("%SongProgress").smf_data = result.data
     
-    var key_array = ["A", "S", "D", "J", "K", "L"]
+    var key_array = ["S", "D", "F", "J", "K", "L", "H"]
 
-    var note_tracks = []
     var track_i = 0
-    var gap = 50
-    for key in key_array:
-        var track_node = note_track.instance()
-        track_node.set_position(Vector2(gap * track_i + 50, 0))
-        track_node.key_to_press = key
-        $Control.add_child(track_node)
-        note_tracks.append(track_node)
+    for key in key_array:               
+        var track = MidiSchdulerTrack.new(
+            key,
+            track_i,
+            get_node(self.track_container_node_path),
+            get_node(self.key_container_node_path),
+            self.owner
+        )
+        track.connect("tree_entered", track, "set_owner", [self.owner]);
+        self.add_child(track)
+        self._tracks.append(track)
         track_i += 1
-        
+
     var midi_scheduler = MidiScheduler.new()
-    midi_scheduler.note_tracks = note_tracks
-    midi_scheduler.connect("note", self, "_on_note")
+    midi_scheduler.note_tracks = _tracks
+    midi_scheduler.connect("note_scheduled", get_node(score_tracker_node_path), "_on_note_scheduled")
+    midi_scheduler.midi_tracks = result.data.tracks
+    midi_scheduler.stage_length = get_node(self.track_container_node_path).rect_size.y
+    midi_scheduler.connect( "tree_entered", midi_scheduler, "set_owner", [self.owner]);
+    self.add_child(midi_scheduler)
     
-    $Control/ColorRect.anchor_top = \
-        1.0 - SongProgress.key_press_interval/SongProgress.note_preview_time
+    #get_node(self.track_container_node_path).get_node("TrackWindow").anchor_top = \
+    #    1.0 - get_node("%SongProgress").key_press_interval/get_node("%SongProgress").note_preview_time
     
-    for track in result.data.tracks:
-        midi_scheduler.start_track_coroutine(track, $Control.rect_size.y)
     
 

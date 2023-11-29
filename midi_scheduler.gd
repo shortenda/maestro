@@ -12,8 +12,16 @@ const note_scene = preload("res://Note.tscn")
 
 var note_tracks: Array = []
 
+var midi_tracks: Array = []
+
+var stage_length = 0
+
 # Triggered when a note is scheduled
-signal note(note)
+signal note_scheduled(note)
+
+func _ready():
+    for track in self.midi_tracks:
+        start_track_coroutine(track)
 
 # Whether the head of the deque overlaps with note.
 func schedule_note(note: Note):
@@ -24,18 +32,18 @@ func schedule_note(note: Note):
     breakpoint
     return false
 
-static func should_spool_event(event_chunk):
-    return SongProgress.current_time >= SongProgress.time_to_spool_event(event_chunk)
+func should_spool_event(event_chunk):
+    return get_node("%SongProgress").current_time >= get_node("%SongProgress").time_to_spool_event(event_chunk)
 
-static func schedule_midi_event(event_chunk: SMF.MIDIEventChunk):
-    yield(SongProgress.song_timers.await_event_chunk(event_chunk), "time_reached");
-    MidiPlayerSingleton.midi_player.receive_raw_smf_midi_event(
+func schedule_midi_event(event_chunk: SMF.MIDIEventChunk):
+    yield(get_node("%SongProgress").song_timers.await_event_chunk(event_chunk), "time_reached");
+    get_node("%MidiPlayerSingleton").midi_player.receive_raw_smf_midi_event(
         event_chunk.channel_number, event_chunk.event)
 
-static func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
+func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
     if (event_chunk.event.type == SMF.MIDIEventType.system_event and
             event_chunk.event.args.type == SMF.MIDISystemEventType.set_tempo):
-        SongProgress.set_tempo(60000000.0 / float( event_chunk.event.args.bpm ))
+        get_node("%SongProgress").set_tempo(60000000.0 / float( event_chunk.event.args.bpm ))
         pass
     schedule_midi_event(event_chunk)
 
@@ -44,23 +52,23 @@ class OpenNote:
     var effects: Array = []
 
 # Called when the node enters the scene tree for the first time.
-func start_track_coroutine(track: SMF.MIDITrack, stage_length):
+func start_track_coroutine(track: SMF.MIDITrack):
     print("Started coroutine for track", track.track_number)
-    var notification = MidiPlayerSingleton.wait_for_ready()
+    var notification =  get_node("%MidiPlayerSingleton").wait_for_ready()
     if notification:
         yield(notification, "completed")
 
     var i = 0
     while true and i < track.events.size():
         if not should_spool_event(track.events[i]):
-            yield(SongProgress.song_timers.await_event_chunk_spool(track.events[i]), "time_reached")
+            yield(get_node("%SongProgress").song_timers.await_event_chunk_spool(track.events[i]), "time_reached")
         
         if track.events[i].event.type != SMF.MIDIEventType.note_on:
             # schedule the event and move on
             handle_non_note_midi_event(track.events[i])
             i += 1
             continue
-            
+          
         var start_note_by_pitch = {}
         var found_end = false
 
@@ -81,16 +89,16 @@ func start_track_coroutine(track: SMF.MIDITrack, stage_length):
                 open_note.effects.append(Note.Effect.new(track.events[i]))
                 
                 var note_node = note_scene.instance()
-                note_node.animation_start_time = open_note.start_note.time - SongProgress.real_time_to_midi_ticks(SongProgress.note_preview_time)
-                note_node.animation_end_time = track.events[i].time
+                note_node.connect("tree_entered", note_node, "set_owner", [self.owner])
+                note_node.animation_start_time = open_note.start_note.time - get_node("%SongProgress").real_time_to_midi_ticks(get_node("%SongProgress").note_preview_time)
+                note_node.animation_end_time = track.events[i].time # open_note.start_note.time + get_node("%SongProgress").real_time_to_midi_ticks(0.5)# track.events[i].time
                 note_node._note_start_time = open_note.start_note.time
-                note_node._note_end_time = track.events[i].time
-                note_node.note_stage_length = stage_length
+                note_node._note_end_time = track.events[i].time # open_note.start_note.time + get_node("%SongProgress").real_time_to_midi_ticks(0.5)# track.events[i].time
+                note_node.note_stage_length = self.stage_length
                 note_node.effects = open_note.effects
                 
-                
                 if schedule_note(note_node):
-                    self.emit_signal("note", note_node)
+                    self.emit_signal("note_scheduled", note_node)
                 start_note_by_pitch.erase(note_off.note)
             else:
                 handle_non_note_midi_event(track.events[i])
