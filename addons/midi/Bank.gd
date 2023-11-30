@@ -60,7 +60,7 @@ class TempSoundFontBag:
     var coarse_tune:int
     var fine_tune:int
     var key_range:TempSoundFontRange
-    var velocity_range:TempSoundFontRange
+    var velocity_range:TempSoundFontRange = TempSoundFontRange.new()
     var instrument:TempSoundFontInstrument
     var pan:float = 0.5
 
