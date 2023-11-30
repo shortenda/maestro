@@ -22,6 +22,7 @@ signal note_scheduled(note)
 func _ready():
     for track in self.midi_tracks:
         start_track_coroutine(track)
+    
 
 # Whether the head of the deque overlaps with note.
 func schedule_note(note: Note):
@@ -108,7 +109,7 @@ func start_track_coroutine(track: SMF.MIDITrack):
             i += 1
             if found_end:
                 break
-
+                
 # place the note type, and in the note check whether the player pressed the button
 # When the note starts animating, it will take two seconds to reach the
 # bottom of the note animation area, past which it will start to play, until the

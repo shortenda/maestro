@@ -55,9 +55,15 @@ func time_to_spool_event(event_chunk):
 # static func fake_time(event_chunk):
 #    return event_chunk.time / 30.0
 
+var _paused = false
+
+func toggle_paused():
+    _paused = !_paused
+
 func _process(delta):
-    current_time += real_time_to_midi_ticks(delta)
-    song_timers.check_timers(current_time)
+    if !_paused:
+        current_time += real_time_to_midi_ticks(delta)
+        song_timers.check_timers(current_time)
 
 
 # Tempo is set in microseconds per quarter note
@@ -65,6 +71,7 @@ func _process(delta):
 # Header determines the number of ticks per quarter note
 
 # microseconds per tick = microseconds per quarter note / ticks per quarter note
+
 
 class SongTimer:
     signal time_reached

@@ -8,6 +8,15 @@ func _ready():
     get_viewport().connect("size_changed", self, "_root_viewport_size_changed")
     viewport_initial_size = $Viewport.size
 
+func _unhandled_input(event):
+    if not event is InputEventKey:
+        return
+        
+    if not event.pressed or event.scancode != KEY_ESCAPE:
+        return
+    
+    get_node("%SongProgress").toggle_paused()
+
 # Called when the root's viewport size changes (i.e. when the window is resized).
 # This is done to handle multiple resolutions without losing quality.
 func _root_viewport_size_changed():
