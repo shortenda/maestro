@@ -24,7 +24,6 @@ func _on_note_missed(note):
     # Notes are placed left to right, and disabled right to left.
     (_health_sprites[_num_healths - _missed_notes]).set_healthy(false)
     
-
 func _ready():
     # 0 through 6
     # 
