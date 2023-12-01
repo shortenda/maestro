@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/stage/Stage.fbx" type="PackedScene" id=1]
+[ext_resource path="res://Assets/piano/Piano.fbx" type="PackedScene" id=2]
 
 [sub_resource type="Environment" id=11]
 background_mode = 2
@@ -77,3 +78,6 @@ light_specular = 1.821
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0407348, 5.56841, 0.422143 )
 fov = 65.0
 near = 0.1
+
+[node name="Piano" parent="." instance=ExtResource( 2 )]
+transform = Transform( 14.5889, -0.0521043, 0.00104184, 0.0521037, 14.5889, 0.00788467, -0.00106987, -0.00788091, 14.589, 0.336103, 2.81387, -3.07761 )
