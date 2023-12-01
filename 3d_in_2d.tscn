@@ -101,6 +101,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="MidiPlayer" parent="MidiPlayerSingleton" instance=ExtResource( 9 )]
+volume_db = 0.0
 soundfont_bytes = ExtResource( 10 )
 
 [node name="HealthHolder" type="Sprite" parent="."]
