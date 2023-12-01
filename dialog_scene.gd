@@ -31,11 +31,6 @@ func _unhandled_input(event):
 # Called when the node enters the scene tree for the first time.
 func _ready():
     next_line()
-    pass
-    #for line in dialog.lines:
-    #    print(line)
-    # TODO remove this scene, and add the new scene
-    # self.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

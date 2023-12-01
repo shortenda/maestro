@@ -2,7 +2,6 @@
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://midi_player_singleton.gd" type="Script" id=2]
-[ext_resource path="res://concert_3d.tscn" type="PackedScene" id=3]
 [ext_resource path="res://score_label.gd" type="Script" id=4]
 [ext_resource path="res://piano_notes.gd" type="Script" id=5]
 [ext_resource path="res://Assets/midi_files/maestro.mid" type="Resource" id=6]
@@ -12,27 +11,17 @@
 [ext_resource path="res://Assets/[GD] The Grandeur D.sf2" type="Resource" id=10]
 [ext_resource path="res://Assets/health holder.png" type="Texture" id=11]
 [ext_resource path="res://health_sprite.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Assets/stage/Stage.fbx" type="PackedScene" id=13]
+[ext_resource path="res://StageScene.tscn" type="PackedScene" id=13]
 
 [sub_resource type="ViewportTexture" id=9]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="ProceduralSky" id=10]
-sky_top_color = Color( 0.0196078, 0.117647, 0.176471, 1 )
-sky_horizon_color = Color( 0.109804, 0.34902, 0.529412, 1 )
-sky_curve = 0.0318197
-sky_energy = 2.32
-ground_bottom_color = Color( 0.180392, 0.203922, 0.227451, 1 )
-sun_color = Color( 0.996078, 0.933333, 0.745098, 1 )
-sun_latitude = 23.87
-sun_longitude = 178.14
+[sub_resource type="StreamTexture" id=10]
+flags = 4
+load_path = "res://.import/whiteline_na.png-ec5722b189139bbde11fdf782322f997.stex"
 
-[sub_resource type="Environment" id=11]
-background_mode = 2
-background_sky = SubResource( 10 )
-
-[sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 192.875, 60.5625 )
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 192, 83 
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -51,7 +40,7 @@ hdr = false
 usage = 3
 render_target_v_flip = true
 
-[node name="Robot3D" parent="Viewport" instance=ExtResource( 3 )]
+[node name="Spatial" parent="Viewport" instance=ExtResource( 13 )]
 
 [node name="NotesScene" type="CanvasLayer" parent="."]
 script = ExtResource( 5 )
@@ -96,7 +85,6 @@ rect_min_size = Vector2( 0, 50 )
 rect_clip_content = true
 
 [node name="ViewportSprite" type="Sprite" parent="."]
-visible = false
 position = Vector2( 963, 546 )
 texture = SubResource( 9 )
 
@@ -114,82 +102,20 @@ texture = ExtResource( 11 )
 
 [node name="ScoreTracker" type="Control" parent="HealthHolder"]
 margin_left = -242.0
-margin_top = -60.0
+margin_top = -62.0
 margin_right = -26.0
-margin_bottom = -20.0
+margin_bottom = -23.0
 script = ExtResource( 4 )
 health_sprite = ExtResource( 12 )
 
-[node name="Stage" parent="." instance=ExtResource( 13 )]
-transform = Transform( 14.5885, 0, 0, 0, 14.5885, 0, 0, 0, 14.5885, -0.52212, 2.79835, -3.39173 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Stage"]
-environment = SubResource( 11 )
-
-[node name="SpotLight" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, -0.394862, 15.1627, -5.87232 )
-light_color = Color( 1, 0.984314, 0.921569, 1 )
-light_energy = 6.578
-light_indirect_energy = 0.0
-shadow_enabled = true
-spot_range = 11.246
-spot_attenuation = 0.15932
-spot_angle = 18.0432
-spot_angle_attenuation = 1.68179
-
-[node name="SpotLight2" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, -12.9472, 26.3892, -17.6362 )
-light_energy = 1.294
-light_indirect_energy = 0.0
-shadow_enabled = true
-spot_range = 18.3007
-spot_attenuation = 0.15932
-spot_angle = 21.7239
-spot_angle_attenuation = 1.68179
-
-[node name="SpotLight4" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, -6.85322, 26.3892, -25.8121 )
-light_color = Color( 1, 0.984314, 0.921569, 1 )
-light_energy = 0.707
-light_indirect_energy = 0.0
-shadow_enabled = true
-spot_range = 12.2915
-spot_attenuation = 0.15932
-spot_angle = 15.3179
-spot_angle_attenuation = 1.68179
-
-[node name="SpotLight5" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, 4.70525, 26.3892, -25.8121 )
-light_color = Color( 1, 0.984314, 0.921569, 1 )
-light_energy = 0.707
-light_indirect_energy = 0.0
-shadow_enabled = true
-spot_range = 12.2915
-spot_attenuation = 0.15932
-spot_angle = 15.3179
-spot_angle_attenuation = 1.68179
-
-[node name="SpotLight3" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, 12.1221, 26.3892, -17.6362 )
-light_color = Color( 1, 0.984314, 0.921569, 1 )
-light_energy = 1.147
-light_indirect_energy = 0.0
-shadow_enabled = true
-spot_range = 18.3007
-spot_attenuation = 0.15932
-spot_angle = 21.7239
-spot_angle_attenuation = 1.68179
-
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.995456, -0.0709058, 0.0635553, -0.0389996, 0.305302, 0.951457, -0.0868673, -0.949612, 0.30115, -5.57606, 13.0484, 8.42671 )
-light_color = Color( 0.364706, 0.345098, 0.913725, 1 )
-light_energy = 0.051
-light_specular = 1.821
+[node name="WhitelineNa" type="Sprite" parent="."]
+position = Vector2( 964, 508 )
+texture = SubResource( 10 )
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 239, 1014 )
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 3, 1.5625 )
-shape = SubResource( 10 )
+position = Vector2( 2, -10 )
+shape = SubResource( 11 )
