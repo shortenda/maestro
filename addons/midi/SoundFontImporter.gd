@@ -46,22 +46,22 @@ func get_option_visibility( option:String, options:Dictionary ):
     return true
 
 func import( source_file:String, save_path:String, s:Dictionary, platform_variants:Array, gen_files:Array ) -> int:
-    
+
     # var sf_reader: = SoundFont.new( )
     # var result: = sf_reader.read_file( source_file )
     # if result.error != OK:
     #    return result.error
     #
     # var bank: = Bank.new( )
-    
+
     # bank.read_soundfont( result.data )
     var f:File = File.new( )
-    
+
 
     var err:int = f.open( source_file, f.READ )
     if err != OK:
         return err
-        
+
     var sound_font_bytes = FileBytes.new()
     sound_font_bytes.value = f.get_buffer(f.get_len())
     var ret = ResourceSaver.save( "%s.%s" % [save_path, self.get_save_extension( )], sound_font_bytes, ResourceSaver.FLAG_COMPRESS )

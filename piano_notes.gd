@@ -28,7 +28,7 @@ var _tracks: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
     var standard_midi_file = SMF.new()
-    
+
     var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
     stream.set_data_array((midi_bytes_resource as FileBytes).value)
     stream.big_endian = true
@@ -38,13 +38,13 @@ func _ready():
 
     if result.error != OK:
         print("Error loading midi file!")
-    
+
     get_node("%SongProgress").smf_data = result.data
-    
+
     var key_array = ["S", "D", "F", "J", "K", "L", "H"]
 
     var track_i = 0
-    for key in key_array:               
+    for key in key_array:
         var track = MidiSchdulerTrack.new(
             key,
             track_i,
@@ -62,11 +62,9 @@ func _ready():
     midi_scheduler.connect("note_scheduled", get_node(score_tracker_node_path), "_on_note_scheduled")
     midi_scheduler.midi_tracks = result.data.tracks
     midi_scheduler.stage_length = get_node(self.track_container_node_path).rect_size.y
-    midi_scheduler.connect( "tree_entered", midi_scheduler, "set_owner", [self.owner]);
+    midi_scheduler.connect("tree_entered", midi_scheduler, "set_owner", [self.owner]);
     self.add_child(midi_scheduler)
-    
-    #get_node(self.track_container_node_path).get_node("TrackWindow").anchor_top = \
-    #    1.0 - get_node("%SongProgress").key_press_interval/get_node("%SongProgress").note_preview_time
-    
-    
+
+    yield(midi_scheduler, "all_notes_complete")
+    get_tree().change_scene("res://EndingScene.tscn")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://midi_player_singleton.gd" type="Script" id=2]
@@ -30,6 +30,9 @@ sun_longitude = 178.14
 [sub_resource type="Environment" id=11]
 background_mode = 2
 background_sky = SubResource( 10 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 192.875, 60.5625 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -102,6 +105,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="MidiPlayer" parent="MidiPlayerSingleton" instance=ExtResource( 9 )]
+volume_db = 0.0
 soundfont_bytes = ExtResource( 10 )
 
 [node name="HealthHolder" type="Sprite" parent="."]
@@ -181,3 +185,11 @@ transform = Transform( 0.995456, -0.0709058, 0.0635553, -0.0389996, 0.305302, 0.
 light_color = Color( 0.364706, 0.345098, 0.913725, 1 )
 light_energy = 0.051
 light_specular = 1.821
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 239, 1014 )
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 3, 1.5625 )
+shape = SubResource( 10 )

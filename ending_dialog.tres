@@ -4,4 +4,4 @@
 
 [resource]
 script = ExtResource( 1 )
-lines = [ "test", "", "" ]
+lines = [ "test" ]
