@@ -105,12 +105,7 @@ func _ready():
     self.emit_signal("note_completed", self)
 
 func _process(_delta):
-    # lerp between animation_start_time and animation_end_time
-    var time_since_start: float = get_node("%SongProgress").current_time - animation_start_time
-    if animation_end_time != animation_start_time:
-        var new_pos = note_animation_length * \
-            (time_since_start/(animation_end_time - animation_start_time))
-        self.position.y = new_pos
+    self.calculate_position()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
