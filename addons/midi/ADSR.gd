@@ -1,6 +1,6 @@
 """
     AudioStreamPlayer with ADSR + Linked by あるる（きのもと 結衣） @arlez80
-    
+
     MIT License
 """
 

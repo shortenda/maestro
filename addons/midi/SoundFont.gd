@@ -197,7 +197,7 @@ class SoundFontParseResult:
         pass
 
 func read_from_buffer (stream: StreamPeerBuffer) -> SoundFontParseResult:
-    var result: = SoundFontParseResult.new( )    
+    var result: = SoundFontParseResult.new( )
     result.data = self._read( stream )
     return result
 
@@ -219,7 +219,7 @@ func read_file( path:String ) -> SoundFontParseResult:
     stream.set_data_array( f.get_buffer( f.get_len( ) ) )
     stream.big_endian = false
     f.close( )
-    
+
     return self.read_from_buffer(stream)
 
 func read_data( data:PoolByteArray ) -> SoundFontParseResult:
@@ -447,7 +447,7 @@ func _read_pdta_bag( stream:StreamPeerBuffer ) -> Array:
 
     while 0 < chunk_stream.get_available_bytes( ):
         var bag:SoundFontBag = SoundFontBag.new( )
-    
+
         bag.gen_ndx = chunk_stream.get_u16( )
         bag.mod_ndx = chunk_stream.get_u16( )
         bags.append( bag )
@@ -472,7 +472,7 @@ func _read_pdta_mod( stream:StreamPeerBuffer ) -> Array:
 
     while 0 < chunk_stream.get_available_bytes( ):
         var mod:SoundFontModule = SoundFontModule.new( )
-    
+
         mod.src_oper = SoundFontPresetDataModulator.new( chunk_stream.get_u16( ) )
         mod.dest_oper = chunk_stream.get_u16( )
         mod.amount = chunk_stream.get_u16( )
@@ -502,7 +502,7 @@ func _read_pdta_gen( stream:StreamPeerBuffer ) -> Array:
     #while 0 < chunk_stream.get_available_bytes( ):
     for i in range( chunk_stream.get_available_bytes( ) / 4 ):
         var gen:SoundFontGenerator = SoundFontGenerator.new( )
-        
+
         gen.gen_oper = chunk_stream.get_u16( )
         var uamount:int = chunk_stream.get_u16( )
         gen.uamount = uamount
@@ -526,7 +526,7 @@ func _read_pdta_inst( stream:StreamPeerBuffer ) -> Array:
 
     while 0 < chunk_stream.get_available_bytes( ):
         var inst:SoundFontInstrument = SoundFontInstrument.new( )
-    
+
         inst.name = chunk_stream.get_string( 20 )
         inst.inst_bag_ndx = chunk_stream.get_u16( )
         insts.append( inst )
@@ -547,7 +547,7 @@ func _read_pdta_shdr( stream:StreamPeerBuffer ) -> Array:
 
     while 0 < chunk_stream.get_available_bytes( ):
         var shdr:SoundFontSampleHeader = SoundFontSampleHeader.new( )
-    
+
         shdr.name = chunk_stream.get_string( 20 )
         shdr.start = chunk_stream.get_u32( )
         shdr.end = chunk_stream.get_u32( )

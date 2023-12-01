@@ -101,6 +101,11 @@ enabled=PoolStringArray( "res://addons/midi/plugin.cfg" )
 
 singletons=[  ]
 
+[network]
+
+limits/debugger_stdout/max_chars_per_second=1000000
+limits/debugger_stdout/max_messages_per_frame=10000
+
 [rendering]
 
 quality/driver/fallback_to_gles2=true

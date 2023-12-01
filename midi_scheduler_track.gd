@@ -5,7 +5,7 @@ class_name NoteTrack
 const Note = preload("res://note.gd")
 
 const track_label_scene = preload("track_label.tscn")
-        
+
 const note_track = preload("res://note_track.tscn")
 
 # head is next note to play.
@@ -21,8 +21,8 @@ var _track_node: Node
 
 func _init(key: String, track_i: int, track_container: Control, key_container: Node, owner: Node):
     _key_to_press = key
-    
-    var track_container_width = track_container.rect_size.x 
+
+    var track_container_width = track_container.rect_size.x
     var track_gap = track_container_width/7.0
 
     _track_label = track_label_scene.instance()
@@ -30,13 +30,13 @@ func _init(key: String, track_i: int, track_container: Control, key_container: N
     _track_label.get_node("Label").bbcode_text = "[center][color=black][b]"+ key + "[/b][/color][/center]"
     self.connect("note_scheduled", _track_label, "_on_note_scheduled")
     key_container.add_child(_track_label)
-    
+
     _track_node = note_track.instance()
     _track_node.connect("tree_entered", _track_node, "set_owner", [owner]);
     _track_node.set_position(Vector2(track_gap * track_i, 0))
     track_container.add_child(_track_node)
     track_container.move_child(_track_node, 0)
-    
+
 func _on_note_hit(_note: Note):
     _scheduled_notes.pop_front()
 
@@ -54,13 +54,13 @@ func _on_note_scheduled(note: Note):
 func _unhandled_input(event):
     if not event is InputEventKey:
         return
-        
+
     if not event.pressed or event.scancode != OS.find_scancode_from_string(_key_to_press):
         return
-    
-    if _scheduled_notes.empty(): 
+
+    if _scheduled_notes.empty():
         return
-    
+
     _scheduled_notes.front().key_pressed()
 
 func add_note(note: Note):

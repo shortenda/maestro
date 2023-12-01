@@ -17,6 +17,7 @@
 viewport_path = NodePath("Viewport")
 
 [sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 194.75, 64.125 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -115,6 +116,8 @@ script = ExtResource( 4 )
 health_sprite = ExtResource( 12 )
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 239, 1014 )
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 10 )

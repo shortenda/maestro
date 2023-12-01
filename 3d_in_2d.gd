@@ -11,10 +11,10 @@ func _ready():
 func _unhandled_input(event):
     if not event is InputEventKey:
         return
-        
+
     if not event.pressed or event.scancode != KEY_ESCAPE:
         return
-    
+
     get_node("%SongProgress").toggle_paused()
 
 # Called when the root's viewport size changes (i.e. when the window is resized).
