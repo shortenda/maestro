@@ -58,6 +58,11 @@ _global_script_classes=[ {
 "class": "SoundFont",
 "language": "GDScript",
 "path": "res://addons/midi/SoundFont.gd"
+}, {
+"base": "Resource",
+"class": "SoundFontSampleDataResource",
+"language": "GDScript",
+"path": "res://addons/midi/sound_font_sample_data_resource.gd"
 } ]
 _global_script_class_icons={
 "AudioStreamPlayerADSR": "",
@@ -69,7 +74,8 @@ _global_script_class_icons={
 "Note": "",
 "NoteTrack": "",
 "SMF": "",
-"SoundFont": ""
+"SoundFont": "",
+"SoundFontSampleDataResource": ""
 }
 
 [application]

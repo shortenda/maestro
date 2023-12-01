@@ -8,4 +8,4 @@ func set_healthy(healthy: bool):
     if healthy:
         $Sprite.texture = health_yes
     else:
-        $Sprite.texture = health_no        
+        $Sprite.texture = health_no
