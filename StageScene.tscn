@@ -1,21 +1,30 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/stage/Stage.fbx" type="PackedScene" id=1]
 [ext_resource path="res://Assets/piano/Piano.fbx" type="PackedScene" id=2]
+[ext_resource path="res://Assets/luminosa/luminosa_sit.fbx" type="PackedScene" id=3]
 
-[sub_resource type="Environment" id=11]
+[sub_resource type="Environment" id=1]
 background_mode = 2
 
 [node name="Spatial" type="Spatial"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 11 )
 
 [node name="Stage" parent="." instance=ExtResource( 1 )]
 transform = Transform( 14.5885, 0, 0, 0, 14.5885, 0, 0, 0, 14.5885, -0.52212, 2.79835, -3.39173 )
 
 [node name="SpotLight" type="SpotLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.0430962, 0.999071, 0, -0.999071, -0.0430962, -0.394862, 15.1627, -5.87232 )
+light_color = Color( 1, 0.984314, 0.921569, 1 )
+light_energy = 6.578
+light_indirect_energy = 0.0
+shadow_enabled = true
+spot_range = 11.246
+spot_attenuation = 0.15932
+spot_angle = 18.0432
+spot_angle_attenuation = 1.68179
+
+[node name="SpotLight6" type="SpotLight" parent="."]
+transform = Transform( 0.937804, -0.0149615, 0.346842, -0.347165, -0.0404158, 0.936933, 0, -0.999071, -0.0430962, 3.84473, 12.763, -5.87232 )
 light_color = Color( 1, 0.984314, 0.921569, 1 )
 light_energy = 6.578
 light_indirect_energy = 0.0
@@ -81,3 +90,9 @@ near = 0.1
 
 [node name="Piano" parent="." instance=ExtResource( 2 )]
 transform = Transform( 14.5889, -0.0521043, 0.00104184, 0.0521037, 14.5889, 0.00788467, -0.00106987, -0.00788091, 14.589, 0.336103, 2.81387, -3.07761 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="luminosa_sit" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1.52437, 0, 9.8833, 0, 10, 0, -9.89021, 0, 1.5233, -1.25683, 4.58698, -5.714 )

@@ -32,8 +32,6 @@ script = ExtResource( 8 )
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 1920, 1080 )
-own_world = true
-transparent_bg = true
 handle_input_locally = false
 msaa = 3
 hdr = false

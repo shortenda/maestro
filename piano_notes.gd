@@ -10,6 +10,8 @@ const MidiSchdulerTrack = preload("res://midi_scheduler_track.gd")
 
 const FileBytes = preload("res://addons/midi/sound_font_bytes.gd")
 
+const Note = preload("res://note.gd")
+
 export (Resource) var midi_bytes_resource
 
 export (NodePath) var track_container_node_path
@@ -66,4 +68,4 @@ func _ready():
     self.add_child(midi_scheduler)
 
     yield(midi_scheduler, "all_notes_complete")
-    get_tree().change_scene("res://EndingScene.tscn")
+    get_tree().change_scene("res://win_scene/win_scene.tscn")

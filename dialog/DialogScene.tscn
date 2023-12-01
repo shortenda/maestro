@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://dialog/dialog_scene.gd" type="Script" id=1]
+[ext_resource path="res://dialog/dialog_node.gd" type="Script" id=2]
+[ext_resource path="res://win_scene/win_dialog.tres" type="Resource" id=3]
+[ext_resource path="res://Assets/sheet_music.PNG" type="Texture" id=4]
+[ext_resource path="res://Assets/dialoguebg.png" type="Texture" id=5]
+[ext_resource path="res://label_font.tres" type="DynamicFont" id=6]
+
+[node name="DialogScene" type="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 1920, 1080 )
+script = ExtResource( 1 )
+dialog_resource = ExtResource( 3 )
+
+[node name="Dialoguebg" type="Sprite" parent="."]
+position = Vector2( 962, 544 )
+scale = Vector2( 1.0012, 1.0012 )
+texture = ExtResource( 5 )
+
+[node name="SheetMusic" type="Sprite" parent="."]
+position = Vector2( 949, 1022 )
+scale = Vector2( 0.614381, 0.614381 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DialogNode" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="TitleNode" type="RichTextLabel" parent="DialogNode"]
+margin_left = 703.0
+margin_top = 588.0
+margin_right = 1203.0
+margin_bottom = 688.0
+custom_fonts/mono_font = ExtResource( 6 )
+custom_fonts/bold_italics_font = ExtResource( 6 )
+custom_fonts/italics_font = ExtResource( 6 )
+custom_fonts/bold_font = ExtResource( 6 )
+custom_fonts/normal_font = ExtResource( 6 )
+bbcode_enabled = true
+scroll_active = false
+
+[node name="TextNode" type="RichTextLabel" parent="DialogNode"]
+margin_left = 198.0
+margin_top = 817.0
+margin_right = 1698.0
+margin_bottom = 917.0
+custom_fonts/mono_font = ExtResource( 6 )
+custom_fonts/bold_italics_font = ExtResource( 6 )
+custom_fonts/italics_font = ExtResource( 6 )
+custom_fonts/bold_font = ExtResource( 6 )
+custom_fonts/normal_font = ExtResource( 6 )
+bbcode_enabled = true
+scroll_active = false

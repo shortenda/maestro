@@ -7,13 +7,8 @@ const SMF = preload("res://addons/midi/SMF.gd")
 
 const Coroutines = preload("res://coroutines.gd")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var animation_start_time = 0
 var animation_end_time = 0
-# var play_start_time = 0
 
 var enabled = false
 
@@ -73,7 +68,6 @@ func calculate_position():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    # The length of the stage
     var note_speed = note_stage_length / get_node("%SongProgress").real_time_to_midi_ticks(get_node("%SongProgress").note_preview_time)
     note_duration = animation_end_time - animation_start_time - get_node("%SongProgress").real_time_to_midi_ticks(get_node("%SongProgress").note_preview_time)
     note_length = note_speed * note_duration

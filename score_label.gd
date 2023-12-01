@@ -19,8 +19,7 @@ func _on_note_scheduled(note):
 func _on_note_missed(note):
     _missed_notes += 1
     if _missed_notes >= 6:
-        get_tree().change_scene("res://3d_in_2d.tscn")
-        # TODO end game better
+        get_tree().change_scene("res://lose_scene/lose_scene.tscn")
     # Notes are placed left to right, and disabled right to left.
     (_health_sprites[_num_healths - _missed_notes]).set_healthy(false)
 

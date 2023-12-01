@@ -1,11 +1,8 @@
 extends Control
 
+const DialogNode = preload("res://dialog/dialog_node.gd")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-const DialogResource = preload("res://dialog_resource.gd")
+const DialogResource = preload("res://dialog/dialog_resource.gd")
 
 export (Resource) var dialog_resource
 onready var dialog = dialog_resource as DialogResource
@@ -22,6 +19,7 @@ func next_line():
         get_tree().quit()
         return
     $DialogNode.text = dialog.lines[current_line]
+    $DialogNode.title = dialog.titles[current_line]
 
 func _unhandled_input(event):
     if event is InputEventKey and event.pressed:

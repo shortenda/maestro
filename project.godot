@@ -24,10 +24,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://coroutines.gd"
 }, {
+"base": "Control",
+"class": "DialogNode",
+"language": "GDScript",
+"path": "res://dialog/dialog_node.gd"
+}, {
 "base": "Resource",
 "class": "DialogResource",
 "language": "GDScript",
-"path": "res://dialog_resource.gd"
+"path": "res://dialog/dialog_resource.gd"
 }, {
 "base": "Resource",
 "class": "FileBytes",
@@ -68,6 +73,7 @@ _global_script_class_icons={
 "AudioStreamPlayerADSR": "",
 "Bank": "",
 "Coroutines": "",
+"DialogNode": "",
 "DialogResource": "",
 "FileBytes": "",
 "MidiPlayer": "res://addons/midi/icon.png",

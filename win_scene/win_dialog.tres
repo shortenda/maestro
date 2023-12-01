@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://dialog/dialog_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+lines = [ "Your song is as beautiful as the first time you played here", "First time? I've never been here before today.", "You've completed your song it is time to move on." ]
+titles = [ "Disembodied Voice", "Luminosa", "Disembodied Voice", "Luminosa" ]
