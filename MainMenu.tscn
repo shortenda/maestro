@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/mainmenubgpng.png" type="Texture" id=1]
 [ext_resource path="res://PlayButton.gd" type="Script" id=2]
@@ -7,13 +7,31 @@
 [ext_resource path="res://Assets/button2.png" type="Texture" id=5]
 [ext_resource path="res://Assets/hoveredbutton.png" type="Texture" id=6]
 [ext_resource path="res://QuitButton.gd" type="Script" id=7]
+[ext_resource path="res://Assets/song.wav" type="AudioStream" id=8]
+[ext_resource path="res://mainmenuscript.gd" type="Script" id=9]
+[ext_resource path="res://Assets/menumusic.wav" type="AudioStream" id=10]
 
 [node name="Mainmenubgpng" type="Sprite"]
 position = Vector2( 970, 537 )
 scale = Vector2( 1.05389, 1.0088 )
 texture = ExtResource( 1 )
+script = ExtResource( 9 )
 
-[node name="TextureButton2" type="TextureButton" parent="."]
+[node name="ButtonPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = 10.0
+
+[node name="PlayButton" type="TextureButton" parent="."]
+margin_left = -323.562
+margin_top = -81.2849
+margin_right = 276.438
+margin_bottom = 204.715
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 6 )
+script = ExtResource( 2 )
+
+[node name="QuitButton" type="TextureButton" parent="."]
 margin_left = -326.409
 margin_top = 153.648
 margin_right = 273.591
@@ -23,12 +41,8 @@ texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 3 )
 script = ExtResource( 7 )
 
-[node name="TextureButton" type="TextureButton" parent="."]
-margin_left = -323.562
-margin_top = -81.2849
-margin_right = 276.438
-margin_bottom = 204.715
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 6 )
-texture_hover = ExtResource( 6 )
-script = ExtResource( 2 )
+[node name="MainMenuPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_TextureButton2_pressed"]

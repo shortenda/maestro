@@ -23,10 +23,11 @@ func _on_note_missed(note):
         # TODO end game better
     # Notes are placed left to right, and disabled right to left.
     (_health_sprites[_num_healths - _missed_notes]).set_healthy(false)
+    
 
 func _ready():
-    # 0 through 5
-    #
+    # 0 through 6
+    # 
     for i in range(_num_healths):
         var width = 1.0 / _num_healths
         var health_control = health_sprite.instance() as Control
@@ -35,3 +36,8 @@ func _ready():
         health_control.anchor_right = i * width
         self.add_child(health_control)
         _health_sprites.append(health_control)
+    
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#    pass

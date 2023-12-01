@@ -82,7 +82,7 @@ _global_script_class_icons={
 
 config/name="Maestro"
 config/description="A demo showing how a 3D scene can be shown within a 2D one using viewports."
-run/main_scene="res://3d_in_2d.tscn"
+run/main_scene="res://MainMenu.tscn"
 config/icon="res://Assets/icon.png"
 
 [display]
@@ -104,11 +104,6 @@ singletons=[  ]
 [global]
 
 scene=false
-
-[network]
-
-limits/debugger_stdout/max_chars_per_second=1000000
-limits/debugger_stdout/max_messages_per_frame=10000
 
 [rendering]
 
