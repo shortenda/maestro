@@ -14,7 +14,7 @@ var _missed_notes = 0
 var _health_sprites = []
 
 func _on_note_scheduled(note):
-	note.connect("note_missed", self, "_on_note_missed")
+    note.connect("note_missed", self, "_on_note_missed")
 
 func _on_note_missed(note):
     _missed_notes += 1

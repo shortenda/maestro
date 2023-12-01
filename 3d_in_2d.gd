@@ -4,9 +4,9 @@ extends Node2D
 var viewport_initial_size = Vector2()
 
 func _ready():
-	#warning-ignore:return_value_discarded
-	get_viewport().connect("size_changed", self, "_root_viewport_size_changed")
-	viewport_initial_size = $Viewport.size
+    #warning-ignore:return_value_discarded
+    get_viewport().connect("size_changed", self, "_root_viewport_size_changed")
+    viewport_initial_size = $Viewport.size
 
 func _unhandled_input(event):
     if not event is InputEventKey:
