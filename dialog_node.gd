@@ -9,7 +9,7 @@ var _text: String setget update_text
 
 func _init(text):
     self._text = text
-    
+
 func update_text(text):
     self.bbcode_text = text
     _text = text

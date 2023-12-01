@@ -11,7 +11,7 @@ onready var _node = get_node(input_receiver_path)
 
 func _input(event):
     _node.input(event)
-    
+
 func _unhandled_input(event):
     _node.unhandled_input(event)
 

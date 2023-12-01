@@ -75,7 +75,7 @@ class GodotMIDIPlayerChannelStatus:
     var sostenuto:float
     var freeze:bool
     var pan:float
-    
+
     var drum_track:bool
 
     var rpn:GodotMIDIPlayerChannelStatusRPN
@@ -132,11 +132,11 @@ class GodotMIDIPlayerChannelStatus:
 class GodotMIDIPlayerChannelStatusRPN:
     var selected_msb:int
     var selected_lsb:int
-    
+
     var pitch_bend_sensitivity:float
     var pitch_bend_sensitivity_msb:float
     var pitch_bend_sensitivity_lsb:float
-    
+
     var modulation_sensitivity:float
     var modulation_sensitivity_msb:float
     var modulation_sensitivity_lsb:float
@@ -150,11 +150,11 @@ class GodotMIDIPlayerChannelStatusRPN:
         #
         self.selected_msb = 0
         self.selected_lsb = 0
-        
+
         self.pitch_bend_sensitivity = 2.0
         self.pitch_bend_sensitivity_msb = 2.0
         self.pitch_bend_sensitivity_lsb = 0.0
-        
+
         self.modulation_sensitivity = 0.25
         self.modulation_sensitivity_msb = 0.25
         self.modulation_sensitivity_lsb = 0.0
@@ -252,7 +252,7 @@ var chorus_power:float = 0.7
 var prepared_to_play:bool = false
 # AudioServerを初期化しているか？
 var is_audio_server_inited:bool = false
-# 
+#
 var _previous_time:float
 
 # -----------------------------------------------------------------------------
@@ -435,7 +435,7 @@ func _init_track( ) -> void:
                 var p = track.pointer
                 if track.length <= p: continue
                 finished = false
-                
+
                 var e:SMF.MIDIEventChunk = track.events[p]
                 var e_time:int = e.time
                 if e_time == time:
@@ -827,7 +827,7 @@ func receive_raw_smf_midi_event(channel_number: int, event: SMF.MIDIEvent ) -> v
         _:
             print( "unknown message %x" % event.type )
             breakpoint
-    
+
 func receive_raw_midi_message( input_event:InputEventMIDI ) -> void:
     #
     # 生MIDIメッセージ処理

@@ -155,7 +155,7 @@ class SMFParseResult:
 class SMFData:
     var format_type:int
     var track_count:int
-    
+
     # Tickets per 10 quarter notes?
     var timebase:int
     var tracks:Array
@@ -587,7 +587,7 @@ func write( smf:SMF, running_status:bool = false ):
 
     var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
     stream.big_endian = true
-    
+
     if stream.put_data( "MThd".to_ascii( ) ) != OK:
         return null
 
