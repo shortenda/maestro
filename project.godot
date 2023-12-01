@@ -95,6 +95,10 @@ enabled=PoolStringArray( "res://addons/midi/plugin.cfg" )
 
 singletons=[  ]
 
+[global]
+
+scene=false
+
 [rendering]
 
 quality/driver/fallback_to_gles2=true
