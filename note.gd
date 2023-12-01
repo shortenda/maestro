@@ -130,5 +130,5 @@ func _ready():
     self.emit_signal("note_completed", self)
 
 func _process(_delta):
-    self.calculate_position
+    self.calculate_position()
 
