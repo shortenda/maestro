@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://3d_in_2d.gd" type="Script" id=1]
 [ext_resource path="res://midi_player_singleton.gd" type="Script" id=2]
