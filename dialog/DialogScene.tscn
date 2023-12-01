@@ -57,3 +57,18 @@ custom_fonts/bold_font = ExtResource( 6 )
 custom_fonts/normal_font = ExtResource( 6 )
 bbcode_enabled = true
 scroll_active = false
+
+[node name="TitleNode" type="RichTextLabel" parent="."]
+margin_left = 1332.0
+margin_top = 56.0
+margin_right = 1832.0
+margin_bottom = 107.0
+custom_fonts/mono_font = ExtResource( 6 )
+custom_fonts/bold_italics_font = ExtResource( 6 )
+custom_fonts/italics_font = ExtResource( 6 )
+custom_fonts/bold_font = ExtResource( 6 )
+custom_fonts/normal_font = ExtResource( 6 )
+bbcode_enabled = true
+bbcode_text = "[center]Enter to Proceed[/center]"
+text = "Enter to Proceed"
+scroll_active = false

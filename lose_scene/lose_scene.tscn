@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://dialog/DialogScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://lose_scene/lose_dialog.tres" type="Resource" id=2]
+[ext_resource path="res://3d_in_2d.tscn" type="PackedScene" id=3]
 
 [node name="EndingScene" type="Node2D"]
 
 [node name="DialogScene" parent="." instance=ExtResource( 1 )]
 dialog_resource = ExtResource( 2 )
+next_scene = ExtResource( 3 )

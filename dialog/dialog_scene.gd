@@ -15,8 +15,7 @@ func next_line():
     # Load next line of dialog
     current_line += 1
     if current_line == dialog.lines.size():
-        self.queue_free()
-        get_tree().quit()
+        get_tree().change_scene_to(next_scene)
         return
     $DialogNode.text = dialog.lines[current_line]
     $DialogNode.title = dialog.titles[current_line]
