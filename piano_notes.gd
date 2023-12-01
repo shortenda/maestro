@@ -62,6 +62,9 @@ func _ready():
     midi_scheduler.connect("note_scheduled", get_node(score_tracker_node_path), "_on_note_scheduled")
     midi_scheduler.midi_tracks = result.data.tracks
     midi_scheduler.stage_length = get_node(self.track_container_node_path).rect_size.y
-    midi_scheduler.connect( "tree_entered", midi_scheduler, "set_owner", [self.owner]);
+    midi_scheduler.connect("tree_entered", midi_scheduler, "set_owner", [self.owner]);
     self.add_child(midi_scheduler)
+
+    yield(midi_scheduler, "all_notes_complete")
+    get_tree().change_scene("res://EndingScene.tscn")
 

@@ -15,9 +15,17 @@ var _key_to_press: String
 
 signal note_scheduled(note)
 
+signal scheduler_track_note_completed(note)
+
 var _track_label: Control
 
 var _track_node: Node
+
+var _incomplete_note_count = 0
+
+func wait_for_empty():
+    while !_scheduled_notes.empty():
+        yield(self, "scheduler_track_note_completed")
 
 func _init(key: String, track_i: int, track_container: Control, key_container: Node, owner: Node):
     _key_to_press = key
@@ -28,7 +36,10 @@ func _init(key: String, track_i: int, track_container: Control, key_container: N
     _track_label = track_label_scene.instance()
     _track_label.set_position(Vector2(track_gap * track_i, 0))
     _track_label.get_node("Label").bbcode_text = "[center][color=black][b]"+ key + "[/b][/color][/center]"
+
     self.connect("note_scheduled", _track_label, "_on_note_scheduled")
+    self.connect("note_scheduled", self, "_on_note_scheduled")
+
     key_container.add_child(_track_label)
 
     _track_node = note_track.instance()
@@ -44,9 +55,12 @@ func _on_note_missed(_note: Note):
     _scheduled_notes.pop_front()
 
 func _on_note_completed(note: Note):
+    _incomplete_note_count -= 1
+    self.emit_signal("scheduler_track_note_completed", note)
     note.queue_free()
 
 func _on_note_scheduled(note: Note):
+    _incomplete_note_count += 1
     note.connect("note_missed", self, "_on_note_missed")
     note.connect("note_hit", self, "_on_note_hit")
     note.connect("note_completed", self, "_on_note_completed")
@@ -67,7 +81,6 @@ func add_note(note: Note):
     _track_node.add_child(note)
     _scheduled_notes.append(note)
     self.emit_signal("note_scheduled", note)
-    _on_note_scheduled(note)
 
 func can_accept_note(note: Note):
     if _scheduled_notes.empty():

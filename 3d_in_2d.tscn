@@ -17,7 +17,7 @@
 viewport_path = NodePath("Viewport")
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 194.75, 64.125 )
+extents = Vector2( 192.875, 60.5625 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -101,6 +101,7 @@ unique_name_in_owner = true
 script = ExtResource( 2 )
 
 [node name="MidiPlayer" parent="MidiPlayerSingleton" instance=ExtResource( 9 )]
+volume_db = 0.0
 soundfont_bytes = ExtResource( 10 )
 
 [node name="HealthHolder" type="Sprite" parent="."]
@@ -120,4 +121,5 @@ position = Vector2( 239, 1014 )
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 3, 1.5625 )
 shape = SubResource( 10 )

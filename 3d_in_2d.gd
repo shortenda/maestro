@@ -24,4 +24,3 @@ func _root_viewport_size_changed():
     # To compensate for the larger resolution, the viewport sprite is scaled down.
     $Viewport.size = Vector2.ONE * get_viewport().size.y
     $ViewportSprite.scale = Vector2(1, 1) * viewport_initial_size.y / get_viewport().size.y
-

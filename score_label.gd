@@ -35,8 +35,3 @@ func _ready():
         health_control.anchor_right = i * width
         self.add_child(health_control)
         _health_sprites.append(health_control)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#    pass

@@ -96,8 +96,6 @@ func _ready():
     $Area2D/CollisionShape2D.shape.set_extents(Vector2(15, note_length / 2))
 
     self.calculate_position()
-    print($Area2D/CollisionShape2D.shape.extents.x)
-    print($Area2D/CollisionShape2D.shape.extents.y)
 
     # Enable collisions now that the position is set.
     $Area2D/CollisionShape2D.set_deferred("disabled", false)
@@ -107,6 +105,7 @@ func _ready():
 
     self.emit_signal("note_can_play", self)
     can_play = true
+
     # TODO can change texture here to indicate note can be played
     # $Sprite.texture = red_dot
 

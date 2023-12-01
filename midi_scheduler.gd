@@ -10,6 +10,7 @@ const Note = preload("res://note.gd")
 
 const note_scene = preload("res://Note.tscn")
 
+# MidiSchdulerTrack array
 var note_tracks: Array = []
 
 var midi_tracks: Array = []
@@ -19,10 +20,20 @@ var stage_length = 0
 # Triggered when a note is scheduled
 signal note_scheduled(note)
 
-func _ready():
-    for track in self.midi_tracks:
-        start_track_coroutine(track)
+signal all_notes_complete()
 
+func _ready():
+    var coroutines = []
+    for track in self.midi_tracks:
+        coroutines.append(start_track_coroutine(track))
+    for coroutine in coroutines:
+        if coroutine.is_valid():
+            yield(coroutine, "completed")
+    for note_track in note_tracks:
+        var completion = note_track.wait_for_empty()
+        if completion:
+            yield(completion, "completed")
+    self.emit_signal("all_notes_complete")
 
 # Whether the head of the deque overlaps with note.
 func schedule_note(note: Note):
@@ -33,10 +44,11 @@ func schedule_note(note: Note):
     breakpoint
     return false
 
+
 func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
     if (event_chunk.event.type == SMF.MIDIEventType.system_event and
             event_chunk.event.args.type == SMF.MIDISystemEventType.set_tempo):
-        get_node("%SongProgress").set_tempo(60000000.0 / float( event_chunk.event.args.bpm ))
+        get_node("%SongProgress").set_tempo(60000000.0 / float(event_chunk.event.args.bpm))
         return
 
     yield(get_node("%SongProgress").song_timers.await_event_chunk(event_chunk), "time_reached");
@@ -46,7 +58,6 @@ func handle_non_note_midi_event(event_chunk: SMF.MIDIEventChunk):
 class OpenNote:
     var start_note: SMF.MIDIEventChunk
     var effects: Array = []
-
 
 class MidiTrackHandler extends Object:
     var start_note_by_pitch = {}
@@ -123,8 +134,7 @@ func start_track_coroutine(track: SMF.MIDITrack):
         yield(notification, "completed")
 
     var midi_track_handler = MidiTrackHandler.new(self, track, get_node("%SongProgress"))
-    midi_track_handler.run()
-
+    return midi_track_handler.run()
 
 # place the note type, and in the note check whether the player pressed the button
 # When the note starts animating, it will take two seconds to reach the
