@@ -21,7 +21,7 @@ export (NodePath) var score_tracker_node_path
 signal score_updated(misses)
 
 func _on_note_scheduled(note: Note):
-    pass
+	pass
 
 var _tracks: Array = []
 

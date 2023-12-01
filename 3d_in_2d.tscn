@@ -17,6 +17,10 @@
 [sub_resource type="ViewportTexture" id=9]
 viewport_path = NodePath("Viewport")
 
+[sub_resource type="StreamTexture" id=10]
+flags = 4
+load_path = "res://.import/whiteline_na.png-ec5722b189139bbde11fdf782322f997.stex"
+
 [sub_resource type="ProceduralSky" id=10]
 sky_top_color = Color( 0.0196078, 0.117647, 0.176471, 1 )
 sky_horizon_color = Color( 0.109804, 0.34902, 0.529412, 1 )
@@ -114,11 +118,15 @@ texture = ExtResource( 11 )
 
 [node name="ScoreTracker" type="Control" parent="HealthHolder"]
 margin_left = -242.0
-margin_top = -60.0
+margin_top = -62.0
 margin_right = -26.0
-margin_bottom = -20.0
+margin_bottom = -23.0
 script = ExtResource( 4 )
 health_sprite = ExtResource( 12 )
+
+[node name="WhitelineNa" type="Sprite" parent="."]
+position = Vector2( 964, 508 )
+texture = SubResource( 10 )
 
 [node name="Stage" parent="." instance=ExtResource( 13 )]
 transform = Transform( 14.5885, 0, 0, 0, 14.5885, 0, 0, 0, 14.5885, -0.52212, 2.79835, -3.39173 )

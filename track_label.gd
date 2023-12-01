@@ -7,26 +7,26 @@ extends Node
 
 # Triggered when a note can be played.
 func _on_note_can_play(_note: Note):
-    $ColorRect.color = Color(0, 255, 255)
+	$ColorRect.color = Color(0, 255, 255)
 
 func _on_note_hit(_note: Note):
-    $ColorRect.color = Color(0, 255, 0)
+	$ColorRect.color = Color(0, 255, 0)
 
 func _on_note_missed(_note: Note):
-    $ColorRect.color = Color(255, 0, 0)
+	$ColorRect.color = Color(255, 0, 0)
 
 func _on_note_completed(_note: Note):
-    $ColorRect.color = Color(255, 255, 255)
+	$ColorRect.color = Color(255, 255, 255)
 
 func _on_note_scheduled(note: Note):
-    note.connect("note_missed", self, "_on_note_missed")
-    note.connect("note_hit", self, "_on_note_hit")
-    note.connect("note_completed", self, "_on_note_completed")
-    note.connect("note_can_play", self, "_on_note_can_play")
+	note.connect("note_missed", self, "_on_note_missed")
+	note.connect("note_hit", self, "_on_note_hit")
+	note.connect("note_completed", self, "_on_note_completed")
+	note.connect("note_can_play", self, "_on_note_can_play")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
+	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

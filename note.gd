@@ -20,10 +20,10 @@ var enabled = false
 var effects = []
 
 class Effect:
-    var event_chunk: SMF.MIDIEventChunk
+	var event_chunk: SMF.MIDIEventChunk
 
-    func _init(evt_chunk):
-        self.event_chunk = evt_chunk
+	func _init(evt_chunk):
+		self.event_chunk = evt_chunk
 
 # The length of the note in units
 var note_length = 0
@@ -50,10 +50,10 @@ func key_pressed():
         self.emit_signal("note_hit", self)
 
 func note_start_time():
-    return _note_start_time
+	return _note_start_time
 
 func note_end_time():
-    return _note_end_time
+	return _note_end_time
 
 signal note_missed(note)
 
@@ -130,5 +130,5 @@ func _ready():
     self.emit_signal("note_completed", self)
 
 func _process(_delta):
-    self.calculate_position()
+    self.calculate_position
 
